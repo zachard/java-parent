@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
@@ -9,12 +10,28 @@
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <jdk.version>1.8</jdk.version>
+      <jsp.version>2.0</jsp.version>
+      <servlet.version>3.0-alpha-1</servlet.version>
       <junit.version>4.12</junit.version>
       <sl4fj.log4j.version>1.7.21</sl4fj.log4j.version>
   </properties>
   
   <dependencyManagement>
       <dependencies>
+          <!-- JSP Servlet start -->
+          <dependency>
+              <groupId>javax.servlet</groupId>
+              <artifactId>jsp-api</artifactId>
+			  <version>${jsp.version}</version>
+			  <scope>provided</scope>
+	      </dependency>
+		  <dependency>
+		      <groupId>javax.servlet</groupId>
+		      <artifactId>servlet-api</artifactId>
+		      <version>${servlet.version}</version>
+		      <scope>provided</scope>
+		  </dependency>
+		  
           <!-- junit -->
 		  <dependency>
 		      <groupId>junit</groupId>
@@ -31,4 +48,8 @@
 		  </dependency>
       </dependencies>
   </dependencyManagement>
+  
+  <modules>
+    <module>hello-java</module>
+  </modules>
 </project>
