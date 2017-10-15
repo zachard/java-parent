@@ -19,7 +19,7 @@ package com.zachard.java.hello.reflect;
 import java.lang.reflect.Constructor;
 
 /**
- * Java反射机制示例类
+ * Java反射机制{@link Class}示例类
  * <pre>
  *     反射机制的主要作用: 
  *     (1)  在运行中分析类的能力
