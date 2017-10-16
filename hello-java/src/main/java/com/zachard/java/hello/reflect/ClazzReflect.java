@@ -126,5 +126,15 @@ public class ClazzReflect {
 	public Object createInstance(Class<?> clazz) throws InstantiationException, IllegalAccessException {
 		return clazz.newInstance();
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getSuperclass()}获取类的父类类型对象
+	 * 
+	 * @param clazz    类型对象
+	 * @return         类型对应父类类型对象
+	 */
+	public Class<?> getSuperClazz(Class<?> clazz) {
+		return clazz.getSuperclass();
+	}
 
 }

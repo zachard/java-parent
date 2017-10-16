@@ -91,4 +91,13 @@ public class ClazzReflectTest {
 		ClazzReflect reflectInstance = (ClazzReflect) clazzReflect.createInstance(ClazzReflect.class);
 		logger.info("新创建实例的对象类型名为: " + clazzReflect.getClazzName(reflectInstance.getClass()));
 	}
+	
+	/**
+	 * 测试利用{@link Class#getSuperclass()}方法获取父类类型对象
+	 */
+	@Test
+	public void getSuperClazzTest() {
+		logger.info("java.util.Date的父类类型为: " + clazzReflect.getSuperClazz(Date.class));
+		logger.info("java.lang.Double的父类类型为: " + clazzReflect.getSuperClazz(Double.class));
+	}
 }
