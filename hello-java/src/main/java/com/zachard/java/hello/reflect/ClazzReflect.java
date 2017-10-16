@@ -44,6 +44,18 @@ public class ClazzReflect {
 	 * 通过类对象获取{@link Object#getClass()}获取{@link Class}对象
 	 * <pre>
 	 *     使用场景: 非static方法
+	 *     注意事项: (1) {@link #getClass()}方法获取到的是程序<b>运行时类型</b>的{@code Class}对象
+	 *                  {@code //静态类型           运行时类型(实际类型)                  }
+	 *                  {@code Number number = new Long("10");                        }
+	 *                  {@code Class<? extends Number clazz = number.getClass();      }
+	 *                  {@code System.err.println(clazz.getName()); //java.lang.Long  }
+	 *                  
+	 *              (2) {@link #getClass()}方法返回的实际类型为{@code Class<? extends |X|>}
+	 *                  {@code |X|}为被{@link #getClass()}方法擦除的静态类型
+	 *              (3) {@link #getClass()}为{@code final native}类型方法,所以不论是{@code this.getClass()}
+	 *                  还是{@code super.getClass()}调用的都是{@link Object#getClass()}方法,而根据(1)可知,
+	 *                  {@link Object#getClass()}得到的始终是运行时的类型,所以{@code super.getClass()}方法不会
+	 *                  返回父类类型{@code Class}对象
 	 * </pre>
 	 * 
 	 * @param object    实例对象
@@ -135,6 +147,22 @@ public class ClazzReflect {
 	 */
 	public Class<?> getSuperClazz(Class<?> clazz) {
 		return clazz.getSuperclass();
+	}
+	
+	/**
+	 * {@link #getClass()}方法的错误用法示例
+	 * 
+	 * <p>
+	 * {@link #getClass()}容易引起误解的地方: {@code super.getClass()}调用了父类的{@code getClass()}方法,
+	 * 所以获取到的{@link Class}类型为父类类型
+	 * </p>
+	 * 
+	 * @return    运行时的类型{@link Class}对象
+	 * @see       #getClazzObject(Object)
+	 * @see       #getSuperClazz(Class)
+	 */
+	public Class<?> cannotGetSuperClazzObject() {
+		return super.getClass();
 	}
 
 }

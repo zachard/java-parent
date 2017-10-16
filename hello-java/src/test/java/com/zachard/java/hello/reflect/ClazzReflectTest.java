@@ -18,6 +18,7 @@ package com.zachard.java.hello.reflect;
 
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -61,6 +62,17 @@ public class ClazzReflectTest {
 	}
 	
 	/**
+	 * 验证{@link #getClass()}方法获取的是运行时类
+	 */
+	@Test
+	public void getRuntimeClazzTest() {
+		Number number = new Long("10");
+		Class<? extends Number> clazz = number.getClass();
+		logger.info("getClass()获取的对象类型为: " + clazz.getName());
+		Assert.assertEquals("java.lang.Long", clazz.getName());
+	}
+	
+	/**
 	 * 通过{@link Class}对象获取类名测试
 	 */
 	@Test
@@ -99,5 +111,14 @@ public class ClazzReflectTest {
 	public void getSuperClazzTest() {
 		logger.info("java.util.Date的父类类型为: " + clazzReflect.getSuperClazz(Date.class));
 		logger.info("java.lang.Double的父类类型为: " + clazzReflect.getSuperClazz(Double.class));
+	}
+	
+	/**
+	 * {@link #getClass()}方法错误使用示例测试
+	 */
+	@Test(expected = Throwable.class)
+	public void cannotGetSuperClazzObjectTest() {
+		Class<?> clazz = clazzReflect.cannotGetSuperClazzObject();
+		Assert.assertEquals("java.lang.Object", clazz.getName());
 	}
 }
