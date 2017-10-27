@@ -121,4 +121,12 @@ public class ClazzReflectTest {
 		Class<?> clazz = clazzReflect.cannotGetSuperClazzObject();
 		Assert.assertEquals("java.lang.Object", clazz.getName());
 	}
+	
+	/**
+	 * 测试通过{@link Class#getModifiers()}获取类型的修饰符
+	 */
+	@Test
+	public void getClazzModifiersTest() {
+		logger.info("java.util.Double类型的修饰符为: " + clazzReflect.getClazzModifiers(Double.class));
+	}
 }

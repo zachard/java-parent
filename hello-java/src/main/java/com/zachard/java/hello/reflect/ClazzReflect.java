@@ -17,6 +17,7 @@
 package com.zachard.java.hello.reflect;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 
 /**
  * Java反射机制{@link Class}示例类
@@ -163,6 +164,21 @@ public class ClazzReflect {
 	 */
 	public Class<?> cannotGetSuperClazzObject() {
 		return super.getClass();
+	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getModifiers()}获取类型的修饰符
+	 * <p>
+	 *     {@link Class#getModifiers()}返回的是int值, 
+	 *     需要通过{@link Modifier#toString()}方法转换为字符串修饰符
+	 *     各个修饰符的int值详见API文档
+	 * </p>
+	 * 
+	 * @param clazz   类型对象
+	 * @return        类型对象的修饰符
+	 */
+	public String getClazzModifiers(Class<?> clazz) {
+		return Modifier.toString(clazz.getModifiers());
 	}
 
 }
