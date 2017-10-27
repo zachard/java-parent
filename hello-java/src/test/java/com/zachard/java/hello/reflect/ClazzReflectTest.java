@@ -16,6 +16,7 @@
 
 package com.zachard.java.hello.reflect;
 
+import java.lang.reflect.Constructor;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -128,5 +129,25 @@ public class ClazzReflectTest {
 	@Test
 	public void getClazzModifiersTest() {
 		logger.info("java.util.Double类型的修饰符为: " + clazzReflect.getClazzModifiers(Double.class));
+	}
+	
+	/**
+	 * 
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void getClazzConstructorTest() throws NoSuchMethodException, SecurityException {
+		// 只有一个参数,获取无参数构造器
+		Constructor<?> stringConstructor = clazzReflect.getClazzConstructor(String.class);
+		logger.info("String类型的无参数构造器为: " + stringConstructor.toString());
+		
+		// 参数长度大于1时
+		Constructor<?> doubleConstructor = clazzReflect.getClazzConstructor(Double.class, String.class);
+		logger.info("Double类型接收一个String类型的构造器为: " + doubleConstructor.toString());
+		
+		// 参数小于1,抛出参数异常
+		Constructor<?> noParamConstructor = clazzReflect.getClazzConstructor();
+		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
 	}
 }

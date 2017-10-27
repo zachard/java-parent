@@ -18,6 +18,7 @@ package com.zachard.java.hello.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 /**
  * Java反射机制{@link Class}示例类
@@ -180,5 +181,46 @@ public class ClazzReflect {
 	public String getClazzModifiers(Class<?> clazz) {
 		return Modifier.toString(clazz.getModifiers());
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getConstructor(Class...)}
+	 * 获取特定类型(调用{@link Class#getConstructor(Class...)}方法对象的类型)
+	 * 的指定参数列表的公共构造器
+	 * <pre>
+	 *     注: (1) 当参数长度为0时,抛出参数异常; 当参数长度为1时,返回此类型的无参数构造器(不存在则抛出
+	 *             {@link NoSuchMethodException})异常; 当参数长度大于1时,返回第一个参数类型且参数为
+	 *             其余类型的构造器,不存在则抛出{@link NoSuchMethodException}异常
+	 *         (2) 示例代码: 
+	 *             {@code // 只传递一个参数,获取其无参数构造器                                                    }
+	 *             {@code Constructor<?> stringConstructor = clazzReflect.getClazzConstructor(String.class); }
+	 *             {@code System.err.println(stringConstructor);                                             }
+	 *             {@code // 输出结果: public java.lang.String()                                              }
+	 *             
+	 *             {@code // 传递多个参数                                                                                    }
+	 *             {@code Constructor<?> doubleConstructor = clazzReflect.getClazzConstructor(Double.class, String.class); }
+	 *             {@code System.err.println(doubleConstructor);                                                           }
+	 *             {@code // 输出结果: public java.lang.Double(java.lang.String) throws java.lang.NumberFormatException     }
+	 * </pre>
+	 * 
+	 * @param clazz   参数数组
+	 *                第一个参数表示需要获取构造器的类型, 其余参数表示构造器的参数(参数不能为空)
+	 * @return        获取到的构造器
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 */
+	public Constructor<?> getClazzConstructor(Class<?>... clazz) 
+			throws NoSuchMethodException, SecurityException {
+		
+		if (clazz == null || clazz.length == 0) {
+			throw new IllegalArgumentException("参数不允许为空");
+		}
+		
+		if (clazz.length == 1) {
+			//参数长度为1, 返回类型的无参数构造函数
+			return clazz[0].getConstructor();
+		}
+		
+		return clazz[0].getConstructor(Arrays.copyOfRange(clazz, 1, clazz.length));
+	} 
 
 }
