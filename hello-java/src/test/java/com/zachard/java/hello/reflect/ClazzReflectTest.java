@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zachard.java.hello.model.User;
+import com.zachard.java.hello.service.AbstractService;
 
 /**
  * Java反射机制测试类
@@ -145,6 +146,10 @@ public class ClazzReflectTest {
 		Constructor<?> stringConstructor = clazzReflect.getClazzConstructor(String.class);
 		logger.info("String类型的无参数构造器为: " + stringConstructor.toString());
 		
+		// 抽象类获取构造器测试
+		Constructor<?> abstractConstructor = clazzReflect.getClazzConstructor(AbstractService.class);
+		logger.info("AbstractService类型无参数构造器: " + abstractConstructor);
+		
 		// 参数长度大于1时
 		Constructor<?> doubleConstructor = clazzReflect.getClazzConstructor(Double.class, String.class);
 		logger.info("Double类型接收一个String类型的构造器为: " + doubleConstructor.toString());
@@ -182,5 +187,35 @@ public class ClazzReflectTest {
 		// 参数小于1,抛出参数异常
 		Constructor<?> noParamConstructor = clazzReflect.getClazzDeclaredConstructor();
 		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
+	}
+	
+	/**
+	 * 测试通过{@link Class#getConstructors()}获取指定类型的公有构造器数组
+	 */
+	@Test
+	public void getClazzConstructorsTest() {
+		// String类型的所有公有构造器
+		Constructor<?>[] stringConstructors = clazzReflect.getClazzConstructors(String.class);
+		logger.info("String类型的公有构造器个数为: " + stringConstructors.length);
+		
+		for (Constructor<?> constructor : stringConstructors) {
+			logger.info(constructor.toString());
+		}
+		
+		// Comparable类型的所有公有构造器(接口)
+		Constructor<?>[] doubleConstructors = clazzReflect.getClazzConstructors(Comparable.class);
+		logger.info("Comparable类型的公有构造器为: " + doubleConstructors.length);
+		
+		for (Constructor<?> constructor : doubleConstructors) {
+			logger.info(constructor.toString());
+		}
+		
+		// User类型公有构造器
+		Constructor<?>[] constructors = clazzReflect.getClazzConstructors(User.class);
+		logger.info("User类型的公有构造器个数为: " + constructors.length);
+		
+		for (Constructor<?> constructor : constructors) {
+			logger.info(constructor.toString());
+		}
 	}
 }
