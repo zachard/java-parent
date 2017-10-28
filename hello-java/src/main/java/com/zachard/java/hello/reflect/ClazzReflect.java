@@ -17,6 +17,7 @@
 package com.zachard.java.hello.reflect;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
@@ -331,6 +332,65 @@ public class ClazzReflect {
 	 */
 	public Constructor<?>[] getClazzDeclaredConstructors(Class<?> clazz) {
 		return clazz.getDeclaredConstructors();
+	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getField(String)}方法获取指定类型(调用类型)的特定名称的公有成员变量
+	 * 
+	 * <pre>
+	 *     注: (1) {@link Class#getField(String)}只能获取公有的成员变量,对于私有及不存在的成员变量会抛出{@link NoSuchFieldException}异常
+	 *         (2) 成员变量搜索顺序: 
+	 *             1. 如果当前类型中存在名称相同的成员变量,则返回当前类型中的成员变量
+	 *             2. 如果第 1 步不满足,则按照当前类型直接实现接口的顺序查找接口中名称相同的成员变量,如果存在则返回
+	 *             3. 如果 1, 2 步都不满足, 则查找此类型的父类型中是否存在名称相同的成员变量,如果存在则返回。若不存在或者
+	 *                此类型没有父类型则抛出{@link NoSuchFieldException}异常
+	 *         (3) 示例代码: 
+	 *             {@code  // 当只有成员变量只在本类中存在时,则获取本类中的成员变量                                   }
+	 *             {@code  String fieldName = "existClazz";                                                  }
+	 *             {@code  Field clazzField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);  }
+	 *             {@code  System.err.println(clazzField);                                                   }
+	 *             {@code  // 输出结果(简写): public Double HomeServiceImpl.existClazz                         }
+	 *             
+	 *             {@code  // 当成员变量在本类和实现接口中不存在,但在继承类中存在时,获取继承类的成员变量                   }
+	 *             {@code  fieldName = "existExtends";                                                         }
+	 *             {@code  Field extendsField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);  }
+	 *             {@code  System.err.println(extendsField);                                                   }
+	 *             {@code  // 输出结果(简写): public Integer AbstractService.existExtends                        }
+	 *             
+	 *             {@code  // 当成员变量在本类和继承类中不存在,但在实现接口中存在时,获取实现接口中的成员变量               }
+	 *             {@code  fieldName = "existImpl";                                                           }
+	 *             {@code  Field implField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);    }
+	 *             {@code  System.err.println(implField);                                                     }
+	 *             {@code  // 输出结果(简写): public static final String HomeService.existImpl                  }
+	 *             
+	 *             {@code  // 当成员变量在本类中不存在,但在继承类及实现接口中存在时,获取实现接口中的成员变量                       }
+	 *             {@code  fieldName = "existExtendsAndImpl";                                                         }
+	 *             {@code  Field extendsAndImplField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);  }
+	 *             {@code  System.err.println(extendsAndImplField);                                                   }
+	 *             {@code  // 输出结果(简写): public static final String HomeService.existExtendsAndImpl                }
+	 *             
+	 *             {@code  // 当成员变量在本类,继承类及实现接口中都存在时,则获取本类中的成员变量                                 }
+	 *             {@code  fieldName = "existAll";                                                                    }
+	 *             {@code  Field allField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);             }
+	 *             {@code  System.err.println(allField);                                                              }
+	 *             {@code  // 输出结果(简写): public Double HomeServiceImpl.existAll                                    }
+	 *             
+	 *             {@code  // 获取不存在的成员变量(私有也属于不存在)时,抛出NoSuchFieldException                              }
+	 *             {@code  fieldName = "privateField";                                                                }
+	 *             {@code  Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);        }
+	 *             {@code  System.err.println("成员变量是否存在: " + (notExistField != null));                           }
+	 *             {@code  // 抛出NoSuchFieldException异常                                                              }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取属性的类型
+	 * @param name     属性名称
+	 * @return         属性对象
+	 * @throws NoSuchFieldException
+	 * @throws SecurityException
+	 */
+	public Field getClazzField(Class<?> clazz, String name) 
+			throws NoSuchFieldException, SecurityException {
+		return clazz.getField(name);
 	}
 
 }

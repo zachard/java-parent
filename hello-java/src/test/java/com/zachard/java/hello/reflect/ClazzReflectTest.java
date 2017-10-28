@@ -17,6 +17,7 @@
 package com.zachard.java.hello.reflect;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import com.zachard.java.hello.model.User;
 import com.zachard.java.hello.service.AbstractService;
+import com.zachard.java.hello.service.impl.HomeServiceImpl;
 
 /**
  * Java反射机制测试类
@@ -160,7 +162,7 @@ public class ClazzReflectTest {
 		
 		// 参数小于1,抛出参数异常
 		Constructor<?> noParamConstructor = clazzReflect.getClazzConstructor();
-		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
+		logger.info("获取构造器器异常: " + (noParamConstructor == null));
 	}
 	
 	/**
@@ -186,7 +188,7 @@ public class ClazzReflectTest {
 		
 		// 参数小于1,抛出参数异常
 		Constructor<?> noParamConstructor = clazzReflect.getClazzDeclaredConstructor();
-		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
+		logger.info("获取构造器器异常: " + (noParamConstructor == null));
 	}
 	
 	/**
@@ -247,5 +249,44 @@ public class ClazzReflectTest {
 		for (Constructor<?> constructor : constructors) {
 			logger.info(constructor.toString());
 		}
+	}
+	
+	/**
+	 * 测试通过{@link Class#getField(String)}方法获取指定类型中的特定名称的成员变量
+	 * 
+	 * @throws NoSuchFieldException
+	 * @throws SecurityException
+	 */
+	@Test(expected = NoSuchFieldException.class)
+	public void getClazzFieldTest() throws NoSuchFieldException, SecurityException {
+		// 当只有成员变量只在本类中存在时,则获取本类中的成员变量
+		String fieldName = "existClazz";
+		Field clazzField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量只在本类中存在时,获取本类中的成员变量: " + clazzField);
+		
+		// 当成员变量在本类和实现接口中不存在,但在继承类中存在时,获取继承类的成员变量
+		fieldName = "existExtends";
+		Field extendsField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量在本类和实现接口中不存在,但在继承类中存在时,获取抽象类的成员变量: " + extendsField);
+		
+		// 当成员变量在本类和继承类中不存在,但在实现接口中存在时,获取实现接口中的成员变量
+		fieldName = "existImpl";
+		Field implField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量在本类和继承类中不存在,但在实现接口中存在时,获取实现接口中的成员变量: " + implField);
+		
+		// 当成员变量在本类中不存在,但在继承类及实现接口中存在时,获取实现接口中的成员变量
+		fieldName = "existExtendsAndImpl";
+		Field extendsAndImplField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量在本类中不存在,但在继承类及实现接口中存在时,获取实现接口中的成员变量 : " + extendsAndImplField);
+		
+		// 当成员变量在本类,继承类及实现接口中都存在时,则获取本类中的成员变量
+		fieldName = "existAll";
+		Field allField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量在本类,继承类及实现接口中都存在时,则获取本类中的成员变量: " + allField);
+		
+		// 获取不存在的成员变量(私有也属于不存在)时,抛出NoSuchFieldException
+		fieldName = "privateField";
+		Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("成员变量是否存在: " + (notExistField != null));
 	}
 }

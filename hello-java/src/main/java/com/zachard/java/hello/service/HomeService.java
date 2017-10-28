@@ -17,35 +17,31 @@
 package com.zachard.java.hello.service;
 
 /**
- * Service公共抽象类
+ * 主页Service层处理
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public abstract class AbstractService {
+public interface HomeService {
 	
 	/**
 	 * 测试{@link Class#getField(String)}获取公有域,当本类,继承类,实现接口中存在名称
 	 * 相同的域时,获取的本类中的域
 	 */
-	public Integer existAll;
+	String existAll = "existAll";
 	
 	/**
 	 * 测试{@link Class#getField(String)}获取公有域,当本类不存在,但继承类,实现接口中同时
 	 * 存在名称相同域时,获取实现接口中的域
 	 */
-	public Integer existExtendsAndImpl;
+	String existExtendsAndImpl = "existExtendsAndImpl";
 	
 	/**
-	 * 测试{@link Class#getField(String)}获取公有域,当本类及实现接口不存在, 但继承类中
-	 * 存在名称相同域时,获取继承类中的域
+	 * 测试{@link Class#getField(String)}获取公有域,当本类及继承类不存在时,但实现接口中
+	 * 存在名称相同域时,获取实现接口中的域
 	 */
-	public Integer existExtends;
-	
-	public AbstractService() {
-		
-	}
+	String existImpl = "existImpl";
 
 }
