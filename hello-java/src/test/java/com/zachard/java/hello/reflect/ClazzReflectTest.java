@@ -25,6 +25,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zachard.java.hello.model.User;
+
 /**
  * Java反射机制测试类
  * <pre>
@@ -132,6 +134,7 @@ public class ClazzReflectTest {
 	}
 	
 	/**
+	 * 测试通过{@link Class#getConstructor(Class...)}获取类型构造器
 	 * 
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
@@ -152,6 +155,32 @@ public class ClazzReflectTest {
 		
 		// 参数小于1,抛出参数异常
 		Constructor<?> noParamConstructor = clazzReflect.getClazzConstructor();
+		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
+	}
+	
+	/**
+	 * 测试通过{@link Class#getDeclaredConstructor(Class...)}获取构造器
+	 * 
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void getClazzDeclaredConstructorTest() 
+			throws NoSuchMethodException, SecurityException {
+		// 只有一个参数获取无参数构造器
+		Constructor<?> stringConstructor = clazzReflect.getClazzDeclaredConstructor(String.class);
+		logger.info("String类型的无参数构造器为: " + stringConstructor);
+		
+		// 参数长度大于1
+		Constructor<?> doubleConstructor = clazzReflect.getClazzDeclaredConstructor(Double.class, String.class);
+		logger.info("Double类型接收一个String类型的构造器为: " + doubleConstructor);
+		
+		// 获取类型的私有构造器
+	    Constructor<?> userConstructor = clazzReflect.getClazzDeclaredConstructor(User.class, String.class);
+		logger.info("User类型接收一个String类型的构造器为: " + userConstructor);
+		
+		// 参数小于1,抛出参数异常
+		Constructor<?> noParamConstructor = clazzReflect.getClazzDeclaredConstructor();
 		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
 	}
 }
