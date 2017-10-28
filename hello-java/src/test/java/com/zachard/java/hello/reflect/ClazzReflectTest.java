@@ -146,6 +146,10 @@ public class ClazzReflectTest {
 		Constructor<?> doubleConstructor = clazzReflect.getClazzConstructor(Double.class, String.class);
 		logger.info("Double类型接收一个String类型的构造器为: " + doubleConstructor.toString());
 		
+		// 抛出 NoSuchMethodException 异常, 但User类中有 private User(String name) 构造器
+		//Constructor<?> userConstructor = clazzReflect.getClazzConstructor(User.class, String.class);
+		//logger.info("User类型是否存在参数为String类型的公有构造器: " + (userConstructor == null ? false : true));
+		
 		// 参数小于1,抛出参数异常
 		Constructor<?> noParamConstructor = clazzReflect.getClazzConstructor();
 		logger.info("获取构造器器异常: " + (noParamConstructor == null ? true : false));
