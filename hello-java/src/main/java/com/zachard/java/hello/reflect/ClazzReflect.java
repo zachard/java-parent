@@ -304,5 +304,33 @@ public class ClazzReflect {
 	public Constructor<?>[] getClazzConstructors(Class<?> clazz) {
 		return clazz.getConstructors();
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getDeclaredConstructors()}获取指定类型(调用函数类型)的所有构造器
+	 * 
+	 * <pre>
+	 *     注: (1) 示例代码:
+	 *             {@code  // String类型的所有构造器                                                                    }
+	 *             {@code  Constructor<?>[] stringConstructors = clazzReflect.getDeclaredConstructors(String.class);  }
+	 *             {@code  System.err.println("String类型的构造器个数为: " + stringConstructors.length);                 }
+	 *             {@code  // 输出结果: String类型的公有构造器个数为: 16                                                   }
+	 *             
+	 *             {@code  // 接口测试                                                                                      }
+	 *             {@code  Constructor<?>[] doubleConstructors = clazzReflect.getDeclaredConstructors(Comparable.class);   }
+	 *             {@code  System.err.println("Comparable类型的构造器为: " + doubleConstructors.length);                      }
+	 *             {@code  // 输出结果: Comparable类型的公有构造器为: 0                                                         }
+	 *             
+	 *             {@code  // User类含有 private User(), private User(String name), public User(String name, Integer age) 三个构造器  }
+	 *             {@code  Constructor<?>[] constructors = clazzReflect.getDeclaredConstructors(User.class);                       }
+	 *             {@code  System.err.println("User类型的构造器个数为: " + constructors.length);                                      }
+	 *             {@code  // 输出结果: User类型的构造器个数为: 3                                                                      }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取的所有构造器的类型
+	 * @return         指定类型的所有构造器
+	 */
+	public Constructor<?>[] getClazzDeclaredConstructors(Class<?> clazz) {
+		return clazz.getDeclaredConstructors();
+	}
 
 }

@@ -218,4 +218,34 @@ public class ClazzReflectTest {
 			logger.info(constructor.toString());
 		}
 	}
+	
+	/**
+	 * 测试通过{@link Class#getDeclaredConstructors()}获取指定类型的所有构造器
+	 */
+	@Test
+	public void getClazzDeclaredConstructorsTest() {
+		// String类型的所有构造器
+		Constructor<?>[] stringConstructors = clazzReflect.getClazzDeclaredConstructors(String.class);
+		logger.info("String类型的构造器个数为: " + stringConstructors.length);
+		
+		for (Constructor<?> constructor : stringConstructors) {
+			logger.info(constructor.toString());
+		}
+		
+		// Comparable类型的所有构造器(接口)
+		Constructor<?>[] doubleConstructors = clazzReflect.getClazzDeclaredConstructors(Comparable.class);
+		logger.info("Comparable类型的构造器为: " + doubleConstructors.length);
+		
+		for (Constructor<?> constructor : doubleConstructors) {
+			logger.info(constructor.toString());
+		}
+		
+		// User类型构造器
+		Constructor<?>[] constructors = clazzReflect.getClazzDeclaredConstructors(User.class);
+		logger.info("User类型的构造器个数为: " + constructors.length);
+		
+		for (Constructor<?> constructor : constructors) {
+			logger.info(constructor.toString());
+		}
+	}
 }
