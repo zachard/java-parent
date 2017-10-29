@@ -252,7 +252,7 @@ public class ClazzReflectTest {
 	}
 	
 	/**
-	 * 测试通过{@link Class#getField(String)}方法获取指定类型中的特定名称的成员变量
+	 * 测试通过{@link Class#getField(String)}方法获取指定类型中的特定名称的公有成员变量
 	 * 
 	 * @throws NoSuchFieldException
 	 * @throws SecurityException
@@ -286,6 +286,36 @@ public class ClazzReflectTest {
 		
 		// 获取不存在的成员变量(私有也属于不存在)时,抛出NoSuchFieldException
 		fieldName = "privateField";
+		Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		logger.info("成员变量是否存在: " + (notExistField != null));
+	}
+	
+	/**
+	 * 测试通过{@link Class#getDeclaredField(String)}方法获取指定类型中特定名称的成员变量
+	 * 
+	 * @throws NoSuchFieldException
+	 * @throws SecurityException
+	 */
+	@Test(expected = NoSuchFieldException.class)
+	public void getClazzDeclaredFieldTest() 
+			throws NoSuchFieldException, SecurityException {
+		// 当公有成员变量在本类中存在时,则获取本类中的公有成员变量
+		String fieldName = "existClazz";
+		Field clazzField = clazzReflect.getClazzDeclaredField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量只在本类中存在时,获取本类中的成员变量: " + clazzField);
+		
+		// 当获取的私有成员变量在本类中存在时,则获取本类中的私有成员变量
+		fieldName = "privateField";
+		Field privateClazzField = clazzReflect.getClazzDeclaredField(HomeServiceImpl.class, fieldName);
+		logger.info("当获取的私有成员变量在本类中存在时,则获取本类中的私有成员变量: " + privateClazzField);
+		
+		// 当成员变量在本类中不存在,但在继承类及实现接口中存在时,抛出NoSuchFieldException
+		fieldName = "existExtendsAndImpl";
+		Field extendsAndImplField = clazzReflect.getClazzDeclaredField(HomeServiceImpl.class, fieldName);
+		logger.info("当成员变量在本类中不存在,但在继承类及实现接口中存在时,成员变量是否存在: " + (extendsAndImplField != null));
+		
+		// 获取不存在的成员变量(私有也属于不存在)时,抛出NoSuchFieldException
+		fieldName = "notExist";
 		Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
 		logger.info("成员变量是否存在: " + (notExistField != null));
 	}

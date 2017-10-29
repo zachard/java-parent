@@ -44,6 +44,13 @@ public abstract class AbstractService {
 	 */
 	public Integer existExtends;
 	
+	/**
+	 * 测试{@link Class#getDeclaredField(String)}获取域,当本类不存在,但继承类中
+	 * 存在名称相同的域时,不会获取到继承类中的域
+	 */
+	@SuppressWarnings("unused")
+	private Integer privateExistExtends;
+	
 	public AbstractService() {
 		
 	}
