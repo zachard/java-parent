@@ -437,5 +437,37 @@ public class ClazzReflect {
 			throws NoSuchFieldException, SecurityException {
 		return clazz.getDeclaredField(name);
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getFields()}方法获取指定类型(调用类型)所有公有成员变量
+	 * 
+	 * <pre>
+	 *     注: (1) 当类型及其实现接口类型、继承类类型没有公共成员变量时,返回一个长度为0的数组
+	 *             当类型为对象类型时, 获取对象类型及其实现接口类型、继承类类型的所有公有成员变量
+	 *             当类型为接口类型时, 获取当前类型及其继承接口类型的所有公有成员变量
+	 *             当类型为数组类型时、基本类型或空时, 返回一个长度为0的数组
+	 *         (2) 代码示例:
+	 *             {@code  // 获取HomeServiceImpl类型的公有成员变量                                                         }
+	 *             {@code  Field[] homeServiceImplFields = clazzReflect.getClazzFields(HomeServiceImpl.class);          }
+	 *             {@code  System.err.println("HomeServiceImpl类型的公有成员变量个数为: " + homeServiceImplFields.length);  }
+	 *             {@code  // 输出结果: HomeServiceImpl类型的公有成员变量个数为: 8                                            }
+	 *             
+	 *             {@code  // 获取double类型中的公有成员变量                                              }
+	 *             {@code  Field[] doubleFields = clazzReflect.getClazzFields(double.class);          }
+	 *             {@code  System.err.println("double类型的公有成员变量个数为: " + doubleFields.length);  }
+	 *             {@code  // 输出结果: double类型的公有成员变量个数为: 0                                  }
+	 *             
+	 *             {@code  // 获取Double数组类型的公有成员变量                                                     }
+	 *             {@code  Field[] doubleArrayFields = clazzReflect.getClazzFields(Double[].class);           }
+	 *             {@code  System.err.println("Double数组类型的公有成员变量个数为: " + doubleArrayFields.length);  }
+	 *             {@code  // 输出结果: Double数组类型的公有成员变量个数为: 0                                       }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取公有变量的类型
+	 * @return         公有变量数组
+	 */
+	public Field[] getClazzFields(Class<?> clazz) {
+		return clazz.getFields();
+	}
 
 }

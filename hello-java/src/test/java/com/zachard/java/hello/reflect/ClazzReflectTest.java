@@ -319,4 +319,34 @@ public class ClazzReflectTest {
 		Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
 		logger.info("成员变量是否存在: " + (notExistField != null));
 	}
+	
+	/**
+	 * 测试通过{@link Class#getFields()}方法获取指定类型的所有公有成员变量
+	 */
+	@Test
+	public void getClazzFieldsTest() {
+		// 获取HomeServiceImpl类型的公有成员变量
+		Field[] homeServiceImplFields = clazzReflect.getClazzFields(HomeServiceImpl.class);
+		logger.info("HomeServiceImpl类型的公有成员变量个数为: " + homeServiceImplFields.length);
+		
+		for (Field field : homeServiceImplFields) {
+			logger.info(field.toString());
+		}
+		
+		// 获取double类型中的公有成员变量
+		Field[] doubleFields = clazzReflect.getClazzFields(double.class);
+		logger.info("double类型的公有成员变量个数为: " + doubleFields.length);
+		
+		for (Field field : doubleFields) {
+			logger.info(field.toString());
+		}
+		
+		// 获取Double数组类型的公有成员变量
+		Field[] doubleArrayFields = clazzReflect.getClazzFields(Double[].class);
+		logger.info("Double数组类型的公有成员变量个数为: " + doubleArrayFields.length);
+		
+		for (Field field : doubleArrayFields) {
+			logger.info(field.toString());
+		}
+	}
 }
