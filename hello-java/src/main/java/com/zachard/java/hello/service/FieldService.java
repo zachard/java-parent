@@ -14,36 +14,34 @@
  *    limitations under the License.
  */
 
-package com.zachard.java.hello.service.impl;
-
-import com.zachard.java.hello.service.AbstractService;
-import com.zachard.java.hello.service.HomeService;
+package com.zachard.java.hello.service;
 
 /**
- * 主页Service实现类
+ * 成员变量Service接口
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class HomeServiceImpl extends AbstractService implements HomeService {
+public interface FieldService {
 	
 	/**
 	 * 测试{@link Class#getField(String)}获取公有域,当本类,继承类,实现接口中存在名称
 	 * 相同的域时,获取的本类中的域
 	 */
-	public Double existAll;
+	String existAll = "existAll";
 	
 	/**
-	 * 测试{@link Class#getField(String)}获取公有域,当继承类及实现接口不存在名称相同的域,
-	 * 只有本类中存在时,获取本类中的域
+	 * 测试{@link Class#getField(String)}获取公有域,当本类不存在,但继承类,实现接口中同时
+	 * 存在名称相同域时,获取实现接口中的域
 	 */
-	public Double existClazz;
+	String existExtendsAndImpl = "existExtendsAndImpl";
 	
 	/**
-	 * 测试{@link Class#getField(String)}获取公有域,当为私有域时会抛出NoSuchFeildException
+	 * 测试{@link Class#getField(String)}获取公有域,当本类及继承类不存在时,但实现接口中
+	 * 存在名称相同域时,获取实现接口中的域
 	 */
-	@SuppressWarnings("unused")
-	private Double privateField;
+	String existImpl = "existImpl";
+
 }

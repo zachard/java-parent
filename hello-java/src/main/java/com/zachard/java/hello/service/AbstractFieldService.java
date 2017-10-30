@@ -17,14 +17,14 @@
 package com.zachard.java.hello.service;
 
 /**
- * Service公共抽象类
+ * FieldService抽象类
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public abstract class AbstractService {
+public abstract class AbstractFieldService {
 	
 	/**
 	 * 测试{@link Class#getField(String)}获取公有域,当本类,继承类,实现接口中存在名称
@@ -51,7 +51,7 @@ public abstract class AbstractService {
 	@SuppressWarnings("unused")
 	private Integer privateExistExtends;
 	
-	public AbstractService() {
+	public AbstractFieldService() {
 		
 	}
 

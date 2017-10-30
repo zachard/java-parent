@@ -469,5 +469,37 @@ public class ClazzReflect {
 	public Field[] getClazzFields(Class<?> clazz) {
 		return clazz.getFields();
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getDeclaredFields()}获取指定类型声明的成员变量
+	 * 
+	 * <pre>
+	 *     注: (1) 当类型中没有声明的成员变量时,则返回一个长度为0的数组
+	 *             当类型为数组类型、基本类型或是空时,则返回一个长度为0的数组
+	 *         (2) {@link Class#getDeclaredFields()}可以获取到public、protected、default及private修饰
+	 *             的成员变量,但不能获取到实现接口和继承类中的成员变量
+	 *         (3) 示例代码:
+	 *             {@code  //获取HomeServiceImpl类型中声明的成员变量                                                         }
+	 *             {@code  Field[] homeServiceImplFields = clazzReflect.getClazzDeclaredFields(FieldServiceImpl.class);  }
+	 *             {@code  System.err.println("HomeServiceImpl类型声明的成员变量个数为: " + homeServiceImplFields.length);   }
+	 *             {@code  // 输出结果: HomeServiceImpl类型声明的成员变量个数为: 3                                            }
+	 *             
+	 *             {@code  // 获取double基本类型中声明的成员变量}
+	 *             {@code  Field[] doubleFields = clazzReflect.getClazzDeclaredFields(double.class);}
+	 *             {@code  System.err.println("double基本类型声明的成员变量个数为: " + doubleFields.length);}
+	 *             {@code  // 输出结果: double基本类型声明的成员变量个数为: 0}
+	 *             
+	 *             {@code  // 获取Double数组类型中声明的成员变量                                                   }
+	 *             {@code  Field[] doubleArrayFields = clazzReflect.getClazzDeclaredFields(Double[].class);   }
+	 *             {@code  System.err.println("Double数组类型声明的成员变量个数为: " + doubleArrayFields.length);  }
+	 *             {@code  // 输出结果: Double数组类型声明的成员变量个数为: 0                                       }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取声明成员变量的类型
+	 * @return         类型声明成员变量数组
+	 */
+	public Field[] getClazzDeclaredFields(Class<?> clazz) {
+		return clazz.getDeclaredFields();
+	}
 
 }

@@ -27,8 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zachard.java.hello.model.User;
-import com.zachard.java.hello.service.AbstractService;
-import com.zachard.java.hello.service.impl.HomeServiceImpl;
+import com.zachard.java.hello.service.AbstractFieldService;
+import com.zachard.java.hello.service.impl.FieldServiceImpl;
 
 /**
  * Java反射机制测试类
@@ -149,7 +149,7 @@ public class ClazzReflectTest {
 		logger.info("String类型的无参数构造器为: " + stringConstructor.toString());
 		
 		// 抽象类获取构造器测试
-		Constructor<?> abstractConstructor = clazzReflect.getClazzConstructor(AbstractService.class);
+		Constructor<?> abstractConstructor = clazzReflect.getClazzConstructor(AbstractFieldService.class);
 		logger.info("AbstractService类型无参数构造器: " + abstractConstructor);
 		
 		// 参数长度大于1时
@@ -261,32 +261,32 @@ public class ClazzReflectTest {
 	public void getClazzFieldTest() throws NoSuchFieldException, SecurityException {
 		// 当只有成员变量只在本类中存在时,则获取本类中的成员变量
 		String fieldName = "existClazz";
-		Field clazzField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field clazzField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量只在本类中存在时,获取本类中的成员变量: " + clazzField);
 		
 		// 当成员变量在本类和实现接口中不存在,但在继承类中存在时,获取继承类的成员变量
 		fieldName = "existExtends";
-		Field extendsField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field extendsField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量在本类和实现接口中不存在,但在继承类中存在时,获取抽象类的成员变量: " + extendsField);
 		
 		// 当成员变量在本类和继承类中不存在,但在实现接口中存在时,获取实现接口中的成员变量
 		fieldName = "existImpl";
-		Field implField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field implField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量在本类和继承类中不存在,但在实现接口中存在时,获取实现接口中的成员变量: " + implField);
 		
 		// 当成员变量在本类中不存在,但在继承类及实现接口中存在时,获取实现接口中的成员变量
 		fieldName = "existExtendsAndImpl";
-		Field extendsAndImplField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field extendsAndImplField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量在本类中不存在,但在继承类及实现接口中存在时,获取实现接口中的成员变量 : " + extendsAndImplField);
 		
 		// 当成员变量在本类,继承类及实现接口中都存在时,则获取本类中的成员变量
 		fieldName = "existAll";
-		Field allField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field allField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量在本类,继承类及实现接口中都存在时,则获取本类中的成员变量: " + allField);
 		
 		// 获取不存在的成员变量(私有也属于不存在)时,抛出NoSuchFieldException
 		fieldName = "privateField";
-		Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field notExistField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("成员变量是否存在: " + (notExistField != null));
 	}
 	
@@ -301,22 +301,22 @@ public class ClazzReflectTest {
 			throws NoSuchFieldException, SecurityException {
 		// 当公有成员变量在本类中存在时,则获取本类中的公有成员变量
 		String fieldName = "existClazz";
-		Field clazzField = clazzReflect.getClazzDeclaredField(HomeServiceImpl.class, fieldName);
+		Field clazzField = clazzReflect.getClazzDeclaredField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量只在本类中存在时,获取本类中的成员变量: " + clazzField);
 		
 		// 当获取的私有成员变量在本类中存在时,则获取本类中的私有成员变量
 		fieldName = "privateField";
-		Field privateClazzField = clazzReflect.getClazzDeclaredField(HomeServiceImpl.class, fieldName);
+		Field privateClazzField = clazzReflect.getClazzDeclaredField(FieldServiceImpl.class, fieldName);
 		logger.info("当获取的私有成员变量在本类中存在时,则获取本类中的私有成员变量: " + privateClazzField);
 		
 		// 当成员变量在本类中不存在,但在继承类及实现接口中存在时,抛出NoSuchFieldException
 		fieldName = "existExtendsAndImpl";
-		Field extendsAndImplField = clazzReflect.getClazzDeclaredField(HomeServiceImpl.class, fieldName);
+		Field extendsAndImplField = clazzReflect.getClazzDeclaredField(FieldServiceImpl.class, fieldName);
 		logger.info("当成员变量在本类中不存在,但在继承类及实现接口中存在时,成员变量是否存在: " + (extendsAndImplField != null));
 		
 		// 获取不存在的成员变量(私有也属于不存在)时,抛出NoSuchFieldException
 		fieldName = "notExist";
-		Field notExistField = clazzReflect.getClazzField(HomeServiceImpl.class, fieldName);
+		Field notExistField = clazzReflect.getClazzField(FieldServiceImpl.class, fieldName);
 		logger.info("成员变量是否存在: " + (notExistField != null));
 	}
 	
@@ -326,14 +326,14 @@ public class ClazzReflectTest {
 	@Test
 	public void getClazzFieldsTest() {
 		// 获取HomeServiceImpl类型的公有成员变量
-		Field[] homeServiceImplFields = clazzReflect.getClazzFields(HomeServiceImpl.class);
+		Field[] homeServiceImplFields = clazzReflect.getClazzFields(FieldServiceImpl.class);
 		logger.info("HomeServiceImpl类型的公有成员变量个数为: " + homeServiceImplFields.length);
 		
 		for (Field field : homeServiceImplFields) {
 			logger.info(field.toString());
 		}
 		
-		// 获取double类型中的公有成员变量
+		// 获取double基本类型中的公有成员变量
 		Field[] doubleFields = clazzReflect.getClazzFields(double.class);
 		logger.info("double类型的公有成员变量个数为: " + doubleFields.length);
 		
@@ -344,6 +344,36 @@ public class ClazzReflectTest {
 		// 获取Double数组类型的公有成员变量
 		Field[] doubleArrayFields = clazzReflect.getClazzFields(Double[].class);
 		logger.info("Double数组类型的公有成员变量个数为: " + doubleArrayFields.length);
+		
+		for (Field field : doubleArrayFields) {
+			logger.info(field.toString());
+		}
+	}
+	
+	/**
+	 * 测试通过{@link Class#getDeclaredFields()}方法获取指定类型声明的成员变量
+	 */
+	@Test
+	public void getClazzDeclaredFieldsTest() {
+		// 获取HomeServiceImpl类型中声明的成员变量
+		Field[] homeServiceImplFields = clazzReflect.getClazzDeclaredFields(FieldServiceImpl.class);
+		logger.info("HomeServiceImpl类型声明的成员变量个数为: " + homeServiceImplFields.length);
+		
+		for (Field field : homeServiceImplFields) {
+			logger.info(field.toString());
+		}
+		
+		// 获取double基本类型中声明的成员变量
+		Field[] doubleFields = clazzReflect.getClazzDeclaredFields(double.class);
+		logger.info("double基本类型声明的成员变量个数为: " + doubleFields.length);
+		
+		for (Field field : doubleFields) {
+			logger.info(field.toString());
+		}
+		
+		// 获取Double数组类型中声明的成员变量
+		Field[] doubleArrayFields = clazzReflect.getClazzDeclaredFields(Double[].class);
+		logger.info("Double数组类型声明的成员变量个数为: " + doubleArrayFields.length);
 		
 		for (Field field : doubleArrayFields) {
 			logger.info(field.toString());
