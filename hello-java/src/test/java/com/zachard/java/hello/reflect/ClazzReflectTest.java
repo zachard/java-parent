@@ -18,6 +18,7 @@ package com.zachard.java.hello.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.zachard.java.hello.model.User;
 import com.zachard.java.hello.service.AbstractFieldService;
 import com.zachard.java.hello.service.impl.FieldServiceImpl;
+import com.zachard.java.hello.service.impl.MethodServiceImpl;
 
 /**
  * Java反射机制测试类
@@ -378,5 +380,34 @@ public class ClazzReflectTest {
 		for (Field field : doubleArrayFields) {
 			logger.info(field.toString());
 		}
+	}
+	
+	/**
+	 * 测试通过{@link Class#getMethod(String, Class...)}方法获取类型中指定名称的公有方法
+	 * 
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	@Test(expected = NoSuchMethodException.class)
+	public void getClazzMethodTest() throws NoSuchMethodException, SecurityException {
+		// 当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法
+		Method allMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "existAll", String.class);
+		logger.info("当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法: " + allMethod);
+		
+		// 当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法
+		Method clazzMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "existClazz", String.class);
+		logger.info("当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法: " + clazzMethod);
+		
+		// 当本类型、实现接口类型不存在,但在继承类型存在时,获取继承类型中的方法
+		Method extendsMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "existExtends", String.class);
+		logger.info("当本类型、实现接口类型不存在,但在继承类型存在时, 获取继承类型中的方法: " + extendsMethod);
+		
+		// 当获取的方法为私有方法时,抛出NoSuchMethodException异常
+//		Method privateMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "privateMethod", String.class);
+//		logger.info("当前类型中名为privateMethod的方法为: " + privateMethod);
+		
+		// 当方法名称为"<init>"或是"<clinit>"时, 抛出NoSuchMethodException异常
+		Method initMethod = clazzReflect.getClazzMethod(Double.class, "<init>", String.class);
+		logger.info("Double类型中<init>名称的方法为: " + initMethod);
 	}
 }

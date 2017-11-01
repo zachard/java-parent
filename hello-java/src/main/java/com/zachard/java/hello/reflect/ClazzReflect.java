@@ -18,6 +18,7 @@ package com.zachard.java.hello.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
@@ -500,6 +501,60 @@ public class ClazzReflect {
 	 */
 	public Field[] getClazzDeclaredFields(Class<?> clazz) {
 		return clazz.getDeclaredFields();
+	}
+	
+	/**
+	 * {@link Class}对象用途,通过{@link Class#getMethod(String, Class...)}获取对应类型(调用方法)的类型中指定
+	 * 签名(名称 + 参数列表)的公有方法
+	 * 
+	 * <pre>
+	 *     注: (1) {@link Class#getMethod(String, Class...)}方法只能获取公有方法,对于不存在及私有方法抛出{@link NoSuchMethodException}异常
+	 *         (2) 公有方法遍历顺序:
+	 *             1. 如果方法名称为"<init>"或是"<clinit>",则抛出{@link NoSuchMethodException}异常
+	 *             2. 如果当前类型中存在签名一致的方法,则返回此方法
+	 *             3. 若在 2 中未找到对应签名的方法,并且当前类型为具体类,则递归查找其继承类型,存在则返回,否则抛出{@link NoSuchMethodException}异常
+	 *             4. 若在 2 中未找到对应签名的方法,并且当前类型为抽象类或接口,则递归查找其继承类型或是实现接口类型,
+	 *                匹配到签名一致的方法时,则返回,否则抛出{@link NoSuchMethodException}异常
+	 *         (3) 具体类型不需要递归查找接口,因为接口定义的方法,在具体类中必须实现
+	 *         (4) 实现接口类型及继承类型中的<code>static</code>方法,不属于{@link Class#getMethod(String, Class...)}查找范围
+	 *         (5) 对于数组类型,调用此方法不能查找出{@link #clone()}方法
+	 *         (6) 示例代码: 
+	 *             {@code  // 当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法                                    }
+	 *             {@code  Method allMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "existAll", String.class);     }
+	 *             {@code  System.err.println("当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法: " + allMethod);  }
+	 *             {@code  // 输出结果(简写): public String MethodServiceImpl.existAll(String)                                      }
+	 *             
+	 *             {@code  // 当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法                                     }
+	 *             {@code  Method clazzMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "existClazz", String.class);  }
+	 *             {@code  System.err.println("当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法: " + clazzMethod); }
+	 *             {@code  // 输出结果(简写): public String MethodServiceImpl.existClazz(String)                                     }
+	 *             
+	 *             {@code  // 当本类型、实现接口类型不存在,但在继承类型存在时,获取继承类型中的方法                                               }
+	 *             {@code  Method extendsMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "existExtends", String.class); }
+	 *             {@code  System.err.println("当本类型、实现接口类型不存在,但在继承类型存在时, 获取继承类型中的方法: " + extendsMethod);        }
+	 *             {@code  // 输出结果(简写): public String AbstractMethodService.existExtends(String)                                  }
+	 *             
+	 *             {@code  // 当获取的方法为私有方法时,抛出NoSuchMethodException异常                                                         }
+	 *             {@code  Method privateMethod = clazzReflect.getClazzMethod(MethodServiceImpl.class, "privateMethod", String.class);  }
+	 *             {@code  System.err.println("当前类型中名为privateMethod的方法为: " + privateMethod);                                    }
+	 *             {@code  // 抛出NoSuchMethodException异常                                                                              }
+	 *             
+	 *             {@code  // 当方法名称为"<init>"或是"<clinit>"时, 抛出NoSuchMethodException异常                                            }
+	 *             {@code  Method initMethod = clazzReflect.getClazzMethod(Double.class, "<init>", String.class);                        }
+	 *             {@code  System.err.println("Double类型中<init>名称的方法为: " + initMethod);                                             }
+	 *             {@code  // 抛出NoSuchMethodException异常                                                                               }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取方法的类型Class对象
+	 * @param name     需要获取的方法名称
+	 * @param parameterTypes    方法参数列表, 为null时, 作为空数组处理
+	 * @return         获取到的方法对象
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	public Method getClazzMethod(Class<?> clazz, String name, Class<?>... parameterTypes) 
+			throws NoSuchMethodException, SecurityException {
+		return clazz.getMethod(name, parameterTypes);
 	}
 
 }
