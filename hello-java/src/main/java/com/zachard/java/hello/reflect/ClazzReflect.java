@@ -556,5 +556,58 @@ public class ClazzReflect {
 			throws NoSuchMethodException, SecurityException {
 		return clazz.getMethod(name, parameterTypes);
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getDeclaredMethod(String, Class...)}方法获取指定类型(调用类型)
+	 * 的特定名称方法
+	 * 
+	 * <pre>
+	 *     注: (1) {@link Class#getDeclaredMethod(String, Class...)}方法可以获取对应类型特定名称和参数列表的方法,
+	 *             对于不存在的方法，会抛出{@link NoSuchMethodException}异常
+	 *         (2) 与{@link Class#getMethod(String, Class...)}方法不同的是,{@link Class#getDeclaredMethod(String, Class...)}
+	 *             只会搜索本类中的成员方法, 而不会搜索继承类型及实现接口类型中的方法(公共方法也是如此)
+	 *         (3) 示例代码:
+	 *             {@code  // 当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法                                        }
+	 *             {@code  Method allMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existAll", String.class);  }
+	 *             {@code  System.err.println(allMethod);                                                                              }
+	 *             {@code  // 输出结果(简写): public String existAll(String)                                                             }
+	 *             
+	 *             {@code  // 当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法                                            }
+	 *             {@code  Method clazzMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existClazz", String.class); }
+	 *             {@code  System.err.println(clazzMethod);                                                                               }
+	 *             {@code  // 输出结果(简写): public String existClazz(String)                                                              }
+	 *             
+	 *             {@code  // 当获取的方法为私有方法且只在本类型中存在时,获取本类型中的私有方法                                                           }
+	 *             {@code  Method privateMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "privateMethod", String.class); }
+	 *             {@code  System.err.println(privateMethod);                                                                                  }
+	 *             {@code  // 输出结果(简写): private String privateMethod(String)                                                               }
+	 *             
+	 *             {@code  // 当本类型、实现接口类型不存在,但在继承类型存在时,抛出NoSuchMethodException                                                 }
+	 *             {@code  Method extendsMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existExtends", String.class);   }
+	 *             {@code  System.err.println(extendsMethod);                                                                                   }
+	 *             {@code  // 抛出NoSuchMethodException异常                                                                                      }
+	 *             
+	 *             {@code  // 当获取方法为私有方法且只在继承类型中存在时, 抛出NoSuchMethodException                                                                }
+	 *             {@code  Method extendsPrivateMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existExtendsPrivate", String.class); }
+	 *             {@code  System.err.println(extendsPrivateMethod);                                                                                        }
+	 *             {@code  // 抛出NoSuchMethodException异常                                                                                                  }
+	 *             
+	 *             {@code  // 当方法名称为"<init>"或是"<clinit>"时, 抛出NoSuchMethodException异常                                                               }
+	 *             {@code  Method initMethod = clazzReflect.getClazzDeclaredMethod(Double.class, "<init>", String.class);                                   }
+	 *             {@code  System.err.println(initMethod);                                                                                                  }
+	 *             {@code  // 抛出NoSuchMethodException异常                                                                                                  }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取特定名称方法的类型
+	 * @param name     指定方法名称
+	 * @param parameterTypes   方法参数列表
+	 * @return                 指定名称的方法
+	 * @throws NoSuchMethodException    未找到指定名称方法异常
+	 * @throws SecurityException
+	 */
+	public Method getClazzDeclaredMethod(Class<?> clazz, String name, Class<?>... parameterTypes) 
+			throws NoSuchMethodException, SecurityException {
+		return clazz.getDeclaredMethod(name, parameterTypes);
+	}
 
 }

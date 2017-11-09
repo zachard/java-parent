@@ -27,7 +27,7 @@ package com.zachard.java.hello.service;
 public abstract class AbstractMethodService {
 	
 	/**
-	 * 测试{@link Class#getMethod(String, Class...)}获取类型方法,当本类型、实现接口类型及继承类型
+	 * 测试{@link Class#getMethod(String, Class...)}获取类公有型方法,当本类型、实现接口类型及继承类型
 	 * 都存在名称相同的方法时,获取当前类型中的方法
 	 * 
 	 * @param name    方法参数
@@ -37,12 +37,25 @@ public abstract class AbstractMethodService {
 	
 	/**
 	 * 测试{@link Class#getMethod(String, Class...)}获取公有类型方法,当本类型、实现接口类型不存在,但在
-	 * 继承类型存在时,
+	 * 继承类型存在时, 获取继承类型中的方法
+	 * 测试{@link Class#getDeclaredMethod(String, Class...)}获取方法时,当本类型、实现接口类型不存在,但在
+	 * 继承类型存在时, 抛出{@link NoSuchMethodException}异常
 	 * 
 	 * @param name    方法参数
 	 * @return        方法返回值
 	 */
 	public String existExtends(String name) {
+		return name;
+	}
+	
+	/**
+	 * 测试{@link Class#getDeclaredMethod(String, Class...)}获取私有类型方法,当本类型、实现接口中不存在,但在
+	 * 继承类型中存在时, 抛出{@link NoSuchMethodException}异常
+	 * 
+	 * @param name    方法参数
+	 * @return        方法返回值
+	 */
+	public String existExtendsPrivate(String name) {
 		return name;
 	}
 

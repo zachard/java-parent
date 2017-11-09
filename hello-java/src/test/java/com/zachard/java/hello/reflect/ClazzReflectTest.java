@@ -410,4 +410,37 @@ public class ClazzReflectTest {
 		Method initMethod = clazzReflect.getClazzMethod(Double.class, "<init>", String.class);
 		logger.info("Double类型中<init>名称的方法为: " + initMethod);
 	}
+	
+	/**
+	 * 测试通过{@link Class#getDeclaredMethod(String, Class...)}方法获取指定类型中的方法
+	 * 
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	@Test(expected = NoSuchMethodException.class)
+	public void getClazzDeclaredMethodTest() throws NoSuchMethodException, SecurityException {
+		// 当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法
+		Method allMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existAll", String.class);
+		logger.info("当本类型、实现接口类型及继承接口类型都存在名称相同的方法时,获取本类型中的方法: " + allMethod);
+		
+		// 当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法
+		Method clazzMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existClazz", String.class);
+		logger.info("当继承类型及实现接口类型不存在名称方法,但当前类型存在,则返回当前类型中的方法: " + clazzMethod);
+		
+		// 当获取的方法为私有方法且只在本类型中存在时,获取本类型中的私有方法
+		Method privateMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "privateMethod", String.class);
+		logger.info("当获取的方法为私有方法且只在本类型中存在时,获取本类型中的私有方法: " + privateMethod);
+		
+		// 当本类型、实现接口类型不存在,但在继承类型存在时,抛出NoSuchMethodException
+//		Method extendsMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existExtends", String.class);
+//		logger.info("当本类型、实现接口类型不存在,但在继承类型存在时, 方法为: " + extendsMethod);
+		
+		// 当获取方法为私有方法且只在继承类型中存在时, 抛出NoSuchMethodException
+		Method extendsPrivateMethod = clazzReflect.getClazzDeclaredMethod(MethodServiceImpl.class, "existExtendsPrivate", String.class);
+		logger.info("当获取方法为私有方法且只在继承类型中存在时, 方法为: " + extendsPrivateMethod);
+		
+		// 当方法名称为"<init>"或是"<clinit>"时, 抛出NoSuchMethodException异常
+		Method initMethod = clazzReflect.getClazzDeclaredMethod(Double.class, "<init>", String.class);
+		logger.info("Double类型中<init>名称的方法为: " + initMethod);
+	}
 }
