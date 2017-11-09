@@ -609,5 +609,43 @@ public class ClazzReflect {
 			throws NoSuchMethodException, SecurityException {
 		return clazz.getDeclaredMethod(name, parameterTypes);
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getMethods()}方法获取指定类型(调用类型)的所有公有成员方法
+	 * 
+	 * <pre>
+	 *     注: (1) 当类型及其实现接口类型、继承类型没有公共成员方法时, 返回一个长度为0的数组
+	 *             当类型为对象类型时, 获取对象类型及其实现接口类型、继承类型的所有公有成员方法
+	 *             当类型为接口类型时, 获取接口类型及其继承接口类型中的公有成员方法
+	 *             当类型为基本类型时, 返回一个长度为0的数组
+	 *             当类型为数组类型时, 返回{@link Object}中的方法数组
+	 *         (2) 示例代码:
+	 *             {@code  // 获取MethodServiceImpl类型的公有成员方法                                                           }
+	 *             {@code  Method[] methodServiceImplMethods = clazzReflect.getCLazzMethods(MethodServiceImpl.class);       }
+	 *             {@code  System.err.println("MethodServiceImpl类型的公有成员方法个数为: " + methodServiceImplMethods.length); }
+	 *             {@code  // 输出结果: MethodServiceImpl类型的公有成员方法个数为: 12                                             }
+	 *             
+	 *             {@code  // 获取Comparable类型的公有成员方法                                                    }
+	 *             {@code  Method[] comparableMethods = clazzReflect.getCLazzMethods(Comparable.class);       }
+	 *             {@code  System.err.println("Comparable类型的公有成员方法个数为: " + comparableMethods.length); }
+	 *             {@code  // 输出结果: Comparable类型的公有成员方法个数为: 1                                       }
+	 *             
+	 *             {@code  // 获取double基本类型的公有成员方法                                                     }
+	 *             {@code  Method[] doubleMethods = clazzReflect.getCLazzMethods(double.class);                }
+	 *             {@code  System.err.println("double基本类型的公有成员方法个数为: " + doubleMethods.length);       }
+	 *             {@code  // 输出结果: double基本类型的公有成员方法个数为: 0                                        }
+	 *             
+	 *             {@code  // 获取Double数组基本类型的公有成员方法                                                }
+	 *             {@code  Method[] doubleArrMethods = clazzReflect.getCLazzMethods(Double[].class);         }
+	 *             {@code  System.err.println("Double数组类型的公有成员方法个数为: " + doubleArrMethods.length);  }
+	 *             {@code  // 输出结果: Double数组类型的公有成员方法个数为: 9                                      }
+	 * </pre>
+	 * 
+	 * @param clazz    需要获取公有方法类型
+	 * @return         特定类型公有方法数组
+	 */
+	public Method[] getCLazzMethods(Class<?> clazz) {
+		return clazz.getMethods();
+	}
 
 }

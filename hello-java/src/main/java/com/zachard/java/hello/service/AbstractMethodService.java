@@ -55,7 +55,8 @@ public abstract class AbstractMethodService {
 	 * @param name    方法参数
 	 * @return        方法返回值
 	 */
-	public String existExtendsPrivate(String name) {
+	@SuppressWarnings("unused")
+	private String existExtendsPrivate(String name) {
 		return name;
 	}
 

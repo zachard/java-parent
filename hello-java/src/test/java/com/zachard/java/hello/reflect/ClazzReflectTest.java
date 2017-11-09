@@ -19,6 +19,7 @@ package com.zachard.java.hello.reflect;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -442,5 +443,35 @@ public class ClazzReflectTest {
 		// 当方法名称为"<init>"或是"<clinit>"时, 抛出NoSuchMethodException异常
 		Method initMethod = clazzReflect.getClazzDeclaredMethod(Double.class, "<init>", String.class);
 		logger.info("Double类型中<init>名称的方法为: " + initMethod);
+	}
+
+	/**
+	 * 测试通过{@link Class#getMethods()}方法获取类型中的所有公有成员方法
+	 */
+	@Test
+    public void getCLazzMethodsTest() {
+		// 获取MethodServiceImpl类型的公有成员方法
+		Method[] methodServiceImplMethods = clazzReflect.getCLazzMethods(MethodServiceImpl.class);
+		logger.info("MethodServiceImpl类型的公有成员方法个数为: " + methodServiceImplMethods.length);
+		Arrays.asList(methodServiceImplMethods).forEach(methodServiceImplMethod 
+				-> logger.info(methodServiceImplMethod.toString()));
+		
+		// 获取Comparable类型的公有成员方法
+		Method[] comparableMethods = clazzReflect.getCLazzMethods(Comparable.class);
+		logger.info("Comparable类型的公有成员方法个数为: " + comparableMethods.length);
+		Arrays.asList(comparableMethods).forEach(comparableMethod
+				-> logger.info(comparableMethod.toString()));
+		
+		// 获取double基本类型的公有成员方法
+		Method[] doubleMethods = clazzReflect.getCLazzMethods(double.class);
+		logger.info("double基本类型的公有成员方法个数为: " + doubleMethods.length);
+		Arrays.asList(doubleMethods).forEach(doubleMethod 
+				-> logger.info(doubleMethod.toString()));
+		
+		// 获取Double数组基本类型的公有成员方法
+		Method[] doubleArrMethods = clazzReflect.getCLazzMethods(Double[].class);
+		logger.info("Double数组类型的公有成员方法个数为: " + doubleArrMethods.length);
+		Arrays.asList(doubleArrMethods).forEach(doubleArrMethod 
+				-> logger.info(doubleArrMethod.toString()));
 	}
 }
