@@ -647,5 +647,43 @@ public class ClazzReflect {
 	public Method[] getCLazzMethods(Class<?> clazz) {
 		return clazz.getMethods();
 	}
+	
+	/**
+	 * {@link Class}对象用途, 通过{@link Class#getDeclaredMethods()}方法获取指定类型(调用类型)中定义的方法
+	 * 
+	 * <pre>
+	 *     注: (1) 当{@link Class#getDeclaredMethods()}方法的对象或接口类型不包含方法时, 返回长度为0的数组
+	 *             当调用类型为数组类型时, 返回长度为0的数组
+	 *             当调用类型为基本类型时, 返回长度为0的数组
+	 *         (2) {@link Class#getDeclaredMethods()}方法可以获取类型中public、protected、default及private
+	 *             修饰的成员方法, 但是不能获取继承类型中继承的方法
+	 *         (3) 示例代码: 
+	 *             {@code  // 获取MethodServiceImpl类型中的方法                                                                 }
+	 *             {@code  Method[] methodServiceImplMethods = clazzReflect.getClazzDeclareMethods(MethodServiceImpl.class); }
+	 *             {@code  System.err.println("MethodServiceImpl类型的方法个数为: " + methodServiceImplMethods.length);         }
+	 *             {@code  // 输出结果: MethodServiceImpl类型的方法个数为: 3                                                     }
+	 *             
+	 *             {@code  // 获取Comparable类型的方法                                                             }
+	 *             {@code  Method[] comparableMethods = clazzReflect.getClazzDeclareMethods(Comparable.class);   }
+	 *             {@code  System.err.println("Comparable类型的方法个数为: " + comparableMethods.length);           }
+	 *             {@code  // 输出结果: Comparable类型的方法个数为: 1                                                }
+	 *             
+	 *             {@code  // 获取double基本类型的方法                                                      }
+	 *             {@code  Method[] doubleMethods = clazzReflect.getClazzDeclareMethods(double.class);   }
+	 *             {@code  System.err.println("double基本类型的方法个数为: " + doubleMethods.length);       }
+	 *             {@code  // 输出结果: double基本类型的方法个数为: 0                                         }
+	 *             
+	 *             {@code  // 获取Double数组基本类型的方法                                                      }
+	 *             {@code  Method[] doubleArrMethods = clazzReflect.getClazzDeclareMethods(Double[].class); }
+	 *             {@code  System.err.println("Double数组类型的方法个数为: " + doubleArrMethods.length); }
+	 *             {@code  // 输出结果: Double数组类型的方法个数为: 0                                            }
+	 * </pre>
+	 * 
+	 * @param clazz   需要获取方法的对应类型
+	 * @return        指定类型中声明的方法数组
+	 */
+	public Method[] getClazzDeclareMethods(Class<?> clazz) {
+		return clazz.getDeclaredMethods();
+	}
 
 }

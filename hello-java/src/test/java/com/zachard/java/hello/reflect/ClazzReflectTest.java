@@ -474,4 +474,34 @@ public class ClazzReflectTest {
 		Arrays.asList(doubleArrMethods).forEach(doubleArrMethod 
 				-> logger.info(doubleArrMethod.toString()));
 	}
+	
+	/**
+	 * 测试{@link Class#getDeclaredMethods()}方法获取指定类型中定义的方法
+	 */
+	@Test
+	public void getClazzDeclareMethodsTest() {
+		// 获取MethodServiceImpl类型中的方法
+		Method[] methodServiceImplMethods = clazzReflect.getClazzDeclareMethods(MethodServiceImpl.class);
+		logger.info("MethodServiceImpl类型的方法个数为: " + methodServiceImplMethods.length);
+		Arrays.asList(methodServiceImplMethods).forEach(methodServiceImplMethod 
+				-> logger.info(methodServiceImplMethod.toString()));
+		
+		// 获取Comparable类型的方法
+		Method[] comparableMethods = clazzReflect.getClazzDeclareMethods(Comparable.class);
+		logger.info("Comparable类型的方法个数为: " + comparableMethods.length);
+		Arrays.asList(comparableMethods).forEach(comparableMethod
+				-> logger.info(comparableMethod.toString()));
+		
+		// 获取double基本类型的方法
+		Method[] doubleMethods = clazzReflect.getClazzDeclareMethods(double.class);
+		logger.info("double基本类型的方法个数为: " + doubleMethods.length);
+		Arrays.asList(doubleMethods).forEach(doubleMethod 
+				-> logger.info(doubleMethod.toString()));
+		
+		// 获取Double数组基本类型的方法
+		Method[] doubleArrMethods = clazzReflect.getClazzDeclareMethods(Double[].class);
+		logger.info("Double数组类型的方法个数为: " + doubleArrMethods.length);
+		Arrays.asList(doubleArrMethods).forEach(doubleArrMethod 
+				-> logger.info(doubleArrMethod.toString()));
+	}
 }
