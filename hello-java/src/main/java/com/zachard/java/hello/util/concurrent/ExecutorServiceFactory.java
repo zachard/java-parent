@@ -34,6 +34,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  *         任务执行并且尝试终止正在执行的任务. 终止状态的执行器中, 没有正在执行的任务、没有等待执行的任务并且新的任务不能
  *         被提交. 一个不再使用的<code>ExecutorService</code>应该及时关闭并释放其占用的资源.
  *         
+ *         当调用<code>ExecutorService</code>中<code>shutdown</code>或是<code>shutdownNow</code>方法中的任意一个时, 
+ *         {@link ExecutorService#isShutdown()}将返回<code>true</code>, 而当所有的任务都已经关闭之后, 才表示线程池
+ *         关闭成功, 此时{@link ExecutorService#isTerminated()}才会返回<code>true</code>. 未调用<code>shutdown</code>
+ *         或是<code>shutdownNow</code>之前, <code>isTerminated</code>不会返回<code>true</code>
+ *         
  *         <code>submit</code>方法继承自用于创建并返回{@link Future}对象的{@link ExecutorService#execute(Runnable)}
  *         方法, <code>Future</code>对象可以用于取消任务的执行或是等待任务的完成. <code>invokeAny</code>方法或是
  *         <code>invokeAll</code>方法提供了一种方便的方式执行大量任务, 并且<code>invokeAny</code>会等待其中至少一个
