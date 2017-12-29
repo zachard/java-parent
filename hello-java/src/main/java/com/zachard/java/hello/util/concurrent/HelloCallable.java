@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,16 @@ public class HelloCallable implements Callable<Integer> {
 	 * 
 	 * <pre>
 	 *     (1) <code>call</code>方法要么正常返回结果, 要么抛出异常
+	 *     (2) 调用{@link ExecutorService#submit(Callable)}方法会返回一个{@code Future<V>}对象, 该结果对象的方法如下:  
+	 *         (2.1) {@link Future#get()}方法的调用将被组塞, 直到<code>call</code>方法执行完成返回, 
+	 *               若<code>call</code>线程被中断, 则抛出{@link InterruptedException}异常
+	 *         (2.2) {@link Future#get(long, java.util.concurrent.TimeUnit)}方法与{@code Future#get()}
+	 *               方法类似, 只是在<code>call</code>方法调用超时时, 它将抛出一个{@link TimeoutException}异常
+	 *         (2.3) {@link Future#isDone()}及{@link Future#isCancelled()}用于判断<code>call</code>
+	 *               方法是否完成或是是否被取消
+	 *         (2.4) {@link Future#cancel(boolean)}方法用于取消<code>call</code>的执行, 如果任务还没开始,
+	 *               那么它将被取消执行, 如果计算正在运行, 那么判断{@code Future#cancel(boolean)}方法参数是否为
+	 *               <code>true</code>, 是则中断任务的执行
 	 * </pre>
 	 * 
 	 * @return    任务执行结果
