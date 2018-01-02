@@ -59,7 +59,7 @@ public class ThreadPoolExecutorFactory {
 	 *         (1.2) 如果线程池中的工作的线程数大于或等于<code>corePoolSize</code>, 执行器会选择将新的
 	 *               任务放入阻塞队列, 等待空闲线程对它进行处理, 而不会创建新的线程
 	 *         (1.3) 如果任务阻塞队列已满, 当线程池中工作的线程数小于<code>maximumPoolSize</code>时, 
-	 *               将创建新的线程对任务进行处理, 否则将任务将被拒绝
+	 *               将创建新的线程对任务进行处理, 否则将按照饱和策略来处理新提交的任务
 	 * </pre>
 	 * 
 	 * @param corePoolSize    线程池的基本大小, 当提交一个任务到线程池时, 线程池会创建一个线程来执行任务.
