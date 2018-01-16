@@ -113,6 +113,10 @@ public class CustomRecursiveTask extends RecursiveTask<Integer> {
 			 */
 			invokeAll(first, second);
 			
+			// fork函数用于表示安排线程执行线程池中的任务
+//			first.fork();
+//			second.fork();
+			
 			/*
 			 *  也可以通过get方法来获取Task中的值, 但是一般避免使用, 因为它抛出了已检查异常,
 			 *  而在compute方法中不允许抛出这些异常
