@@ -18,7 +18,7 @@ package com.zachard.effective.java.object.life;
 
 /**
  * <code>Effitive Java</code>第二章: 创建和销毁对象
- * 采用静态工程方法创建对象相比于构造器的优势 -- 静态方法不必在每次调用它们的时候创建新对象
+ * 采用静态工程方法创建对象相比于构造器的优势 -- 静态工厂方法不必在每次调用它们的时候创建新对象
  * 
  * <pre>
  * </pre>
