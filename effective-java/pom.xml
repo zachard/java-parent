@@ -18,6 +18,17 @@
 	</properties>
 
 	<dependencies>
+		<!-- 单元测试架包 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- log -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
 	</dependencies>
 
 	<description>Effective Java书籍代码实践</description>
