@@ -38,7 +38,7 @@ public class ServiceProviderTest {
      */
     @Test
     public void testBasic() {
-        // 提供者注册API, 注册对应的相关的服务提供者
+        // 提供者注册API, 注册相关的服务提供者
         Services.registerDefaultprovider(new DefaultProviderImpl());
         Services.registerProvider("login", new LoginProviderImpl());
         
