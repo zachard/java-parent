@@ -16,15 +16,9 @@
 
 package com.zachard.effective.java.object.life;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.zachard.effective.java.object.life.BuilderPattern.Builder;
-
 /**
  * <code>Effitive Java</code>第二章: 创建和销毁对象
- * 遇到多个构造器参数时要考虑用构造器 -- Builder模式解决办法测试类
+ * 遇到多个构造器参数时要考虑用构造器 -- Builder模式公共接口
  * 
  * <pre>
  * </pre>
@@ -32,19 +26,13 @@ import com.zachard.effective.java.object.life.BuilderPattern.Builder;
  * @author zachard
  * @version 1.0.0
  */
-public class BuilderPatternTest {
-    
-    private static final Logger logger = LoggerFactory.getLogger(BuilderPatternTest.class);
+public interface BuilderFactory<T> {
     
     /**
-     * 测试Builder模式构造对象
+     * 添加泛型参数, 编译器即可校验是否正确
+     * 
+     * @return
      */
-    @Test
-    public void testBasic() {
-        Builder builder = new Builder("章三", "18888888888");
-        BuilderPattern pattern = builder.age(23)
-                .sex(false).address("皇后街666号").build();
-        logger.info("姓名为: " + pattern.getName() + ", 住址为: " + pattern.getAddress());
-    }
+    T build();
 
 }

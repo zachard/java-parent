@@ -67,7 +67,7 @@ public class BuilderPattern {
      * @author richard
      *
      */
-    public static class Builder {
+    public static class Builder implements BuilderFactory<BuilderPattern> {
         // 被构造对象必填的属性(是否应该设置为final应当示情况而定)
         private final String name;
         private final String mobile;
@@ -115,7 +115,8 @@ public class BuilderPattern {
          * 
          * @return
          */
-        public BuilderPattern builder() {
+        @Override
+        public BuilderPattern build() {
             return new BuilderPattern(this);
         }
     }
