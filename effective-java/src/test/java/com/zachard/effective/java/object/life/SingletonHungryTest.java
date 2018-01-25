@@ -16,6 +16,9 @@
 
 package com.zachard.effective.java.object.life;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +39,30 @@ public class SingletonHungryTest {
     
     /**
      * 饿汉模式单例测试方法
+     * 
+     * @throws ClassNotFoundException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws SecurityException 
+     * @throws NoSuchMethodException 
      */
     @Test
-    public void testBasic() {
+    public void testBasic() throws ClassNotFoundException, InstantiationException, 
+        IllegalAccessException, NoSuchMethodException, SecurityException {
+        
         // 饿汉方式单例模式测试方法
-        logger.info(SingletonHungry.INSTANCE.description());
+        // logger.info(SingletonHungry.INSTANCE.description());
+        logger.info(SingletonHungry.getInstance().description());
+        
+        // 通过反射机制创建不同于单例的实例
+        Constructor<?>  constructor = SingletonHungry.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        try {
+            logger.info("通过反射创建的实例为: " + constructor.newInstance());
+        } catch (IllegalArgumentException | InvocationTargetException e) {
+            logger.error("通过构造器创建对象异常: {}", e);
+        }
+        logger.info("类型本身的实例为: " + SingletonHungry.getInstance());
     }
 
 }

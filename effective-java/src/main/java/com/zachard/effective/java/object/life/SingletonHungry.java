@@ -31,7 +31,7 @@ public class SingletonHungry {
     /**
      * 饿汉模式创建单例模式
      */
-    public static final SingletonHungry INSTANCE = new SingletonHungry();
+    private static final SingletonHungry INSTANCE = new SingletonHungry();
     
     /**
      * 私有化构造器, 无法通过构造器来创建对象
@@ -47,6 +47,15 @@ public class SingletonHungry {
      */
     public String description() {
         return "我是饿汉方式的单例模式";
+    }
+    
+    /**
+     * 获取类型对应的单例
+     * 
+     * @return  类型唯一的对象
+     */
+    public static SingletonHungry getInstance() {
+        return INSTANCE;
     }
 
 }
