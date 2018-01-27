@@ -16,6 +16,8 @@
 
 package com.zachard.effective.java.object.life;
 
+import java.io.Serializable;
+
 /**
  * <code>Effitive Java</code>第二章: 创建和销毁对象
  * 用私有构造器或者枚举类型强化Singleton属性 -- 饿汉模式
@@ -26,7 +28,17 @@ package com.zachard.effective.java.object.life;
  * @author zachard
  * @version 1.0.0
  */
-public class SingletonHungry {
+public class SingletonHungry implements Serializable {
+    
+    /**
+     * 序列化ID，显示声明时有如下好处:
+     * <pre>
+     *   1. 提高程序运行效率
+     *   2. 避免不同操作系统间计算方式不一致而导致生成值不一致
+     *   3. 避免类文件修改后导致同一个类出现不同ID值情况
+     * </pre>
+     */
+    private static final long serialVersionUID = 7038679268328529042L;
     
     /**
      * 饿汉模式创建单例模式
@@ -55,6 +67,15 @@ public class SingletonHungry {
      * @return  类型唯一的对象
      */
     public static SingletonHungry getInstance() {
+        return INSTANCE;
+    }
+    
+    /**
+     * 保证反序列化得到的对象为公有静态final成员, 保证类的Singleton属性
+     * 
+     * @return
+     */
+    private Object readResolve() {
         return INSTANCE;
     }
 

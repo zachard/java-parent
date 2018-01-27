@@ -16,6 +16,12 @@
 
 package com.zachard.effective.java.object.life;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -38,6 +44,11 @@ public class SingletonHungryTest {
     private static final Logger logger = LoggerFactory.getLogger(SingletonHungryTest.class);
     
     /**
+     * 序列化文件路径
+     */
+    private static final String SERIALIZABLE_FILE_PATH = "serializable.txt";
+    
+    /**
      * 饿汉模式单例测试方法
      * 
      * @throws ClassNotFoundException 
@@ -51,18 +62,69 @@ public class SingletonHungryTest {
         IllegalAccessException, NoSuchMethodException, SecurityException {
         
         // 饿汉方式单例模式测试方法
-        // logger.info(SingletonHungry.INSTANCE.description());
+        //logger.info(SingletonHungry.INSTANCE.INSTANCE.INSTANCE.description());
+        //logger.info(SingletonHungry.INSTANCE.description());
         logger.info(SingletonHungry.getInstance().description());
         
         // 通过反射机制创建不同于单例的实例
         Constructor<?>  constructor = SingletonHungry.class.getDeclaredConstructor();
+        // 设置构造器的可访问性
         constructor.setAccessible(true);
         try {
             logger.info("通过反射创建的实例为: " + constructor.newInstance());
         } catch (IllegalArgumentException | InvocationTargetException e) {
             logger.error("通过构造器创建对象异常: {}", e);
         }
-        logger.info("类型本身的实例为: " + SingletonHungry.getInstance());
+        logger.info("类型公有静态final成员为: " + SingletonHungry.getInstance());
+    }
+    
+    /**
+     * 单例模式对象序列化测试方法
+     */
+    @Test
+    public void testSerializable() {
+        // 先将单例模式的唯一对象序列化到文件
+        ObjectOutputStream output = null;
+        try {
+            output = new ObjectOutputStream(new FileOutputStream(SERIALIZABLE_FILE_PATH));
+            output.writeObject(SingletonHungry.getInstance());
+        } catch (IOException e) {
+            logger.error("将对象序列化到文件异常: {}", e);
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    logger.error("关闭输出流失败: {}", e);
+                }
+            }
+        }
+    }
+    
+    /**
+     * 单例模式对象反序列化测试方法
+     */
+    @Test
+    public void testDeserialize() {
+        File file = new File(SERIALIZABLE_FILE_PATH);
+        ObjectInputStream input = null;
+        // 从文件中读取单例模式序列化信息并对对象进行反序列化
+        try {
+            input = new ObjectInputStream(new FileInputStream(file));
+            SingletonHungry singleton = (SingletonHungry) input.readObject();
+            logger.info("单例模式中的实例为: {}", SingletonHungry.getInstance());
+            logger.info("反序列化得到的实例为: {}", singleton);
+        } catch (Exception e) {
+            logger.error("对对象进行反序列化失败: {}", e);
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    logger.error("关闭输入流失败: {}", e);
+                }
+            }
+        }
     }
 
 }
