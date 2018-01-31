@@ -83,6 +83,7 @@ public class ObsoleteReferenceOutOfMemory {
         if (size == 0) {
             throw new EmptyStackException();
         }
+        
         return elements[--size];
     }
     
@@ -102,6 +103,20 @@ public class ObsoleteReferenceOutOfMemory {
      */
     public int length() {
         return elements.length;
+    }
+    
+    /**
+     * 获取栈中的元素
+     * 
+     * @param i    元素下标 -- 第一个入栈的元素下标为0
+     * @return     栈中的元素
+     */
+    public Object get(int i) {
+        if (i > (elements.length - 1)) {
+            throw new IllegalArgumentException();
+        }
+        
+        return elements[i];
     }
     
     /**
