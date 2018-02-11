@@ -83,8 +83,10 @@ public class ObsoleteReferenceOutOfMemory {
         if (size == 0) {
             throw new EmptyStackException();
         }
+        Object result = elements[--size];
+        elements[size] = null;
         
-        return elements[--size];
+        return result;
     }
     
     /**
