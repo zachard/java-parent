@@ -16,8 +16,8 @@
 
 package com.zachard.effective.java.object.life.weakhashmap;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * 缓存管理模拟类
@@ -29,7 +29,8 @@ import java.util.Map;
  */
 public class CacheManager {
     
-    private Map<String, Object> cache = new HashMap<>();
+//    private Map<String, Object> cache = new HashMap<>();
+    private Map<String, Object> cache = new WeakHashMap<>();
     
     /**
      * 将对象加入缓存
