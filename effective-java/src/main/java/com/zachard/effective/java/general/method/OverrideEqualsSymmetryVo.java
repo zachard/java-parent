@@ -43,8 +43,7 @@ public class OverrideEqualsSymmetryVo {
     }
     
     /**
-     * 覆写{@link #equals(Object)}方法, 实现{@link OverrideEqualsSymmetryVo}
-     * 对象与{@link String}对象的逻辑相等测试
+     * 覆写{@link #equals(Object)}方法
      * 
      * <p>
      *     此方法并不满足覆写{@link #equals(Object)}方法需要的对称性
