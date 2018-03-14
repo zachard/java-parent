@@ -54,7 +54,14 @@ public class OverrideEqualsTransitivitySuperVo {
             return true;
         }
         
-        if (!(o instanceof OverrideEqualsTransitivitySuperVo)) {
+//        if (!(o instanceof OverrideEqualsTransitivitySuperVo)) {
+//            return false;
+//        }
+        
+        /*
+         *  用getClass代替instanceOf判断, 实现父类与子类进行逻辑相等性测试返回false
+         */
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
         
