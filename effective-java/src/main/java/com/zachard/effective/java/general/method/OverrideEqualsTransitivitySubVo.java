@@ -77,5 +77,10 @@ public class OverrideEqualsTransitivitySubVo extends OverrideEqualsTransitivityS
          */
         return super.equals(o) && ((OverrideEqualsTransitivitySubVo) o).color == color;
     }
+    
+//    @Override
+//    public int hashCode() {
+//        return 10;
+//    }
 
 }

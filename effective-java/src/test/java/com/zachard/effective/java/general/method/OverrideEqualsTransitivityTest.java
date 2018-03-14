@@ -39,6 +39,19 @@ public class OverrideEqualsTransitivityTest {
     
     private static Logger logger = LoggerFactory.getLogger(OverrideEqualsTransitivityTest.class);
 
+    public static final Set<OverrideEqualsTransitivitySuperVo> UNIT_CIRCLE;
+    
+    /**
+     * 初始化集合
+     */
+    static {
+        UNIT_CIRCLE = new HashSet<>();
+        UNIT_CIRCLE.add(new OverrideEqualsTransitivitySuperVo(1, 0));
+        UNIT_CIRCLE.add(new OverrideEqualsTransitivitySuperVo(0, 1));
+        UNIT_CIRCLE.add(new OverrideEqualsTransitivitySuperVo(-1, 0));
+        UNIT_CIRCLE.add(new OverrideEqualsTransitivitySuperVo(0, -1));
+    }
+    
     /**
      * 覆写{@link #equals(Object)}方法违反传递性测试
      */
@@ -75,5 +88,16 @@ public class OverrideEqualsTransitivityTest {
         voSet.add(superVo);
         logger.info("equals方法违反传递性时, 当向Set集合加入A、B对象, 测试C对象是否在集合中: {}", 
                 voSet.contains(subVo2));
+    }
+    
+    /**
+     * 父类{@link #equals(Object)}方法中{@link #getClass()}代替{@code instanceOf}
+     * 违反里氏原则测试
+     */
+    @Test
+    public void violationRichterPrinciple() {
+        logger.info("当为子类时, 单位圆中是否包含对象: {}", 
+                UNIT_CIRCLE.contains(new OverrideEqualsTransitivitySubVo(0, 1, 
+                        OverrideEqualsTransitivityColor.RED)));
     }
 }

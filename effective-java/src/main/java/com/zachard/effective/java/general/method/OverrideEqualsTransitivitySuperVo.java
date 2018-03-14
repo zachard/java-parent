@@ -70,5 +70,10 @@ public class OverrideEqualsTransitivitySuperVo {
         
         return x == other.x && y == other.y;
     }
+    
+//    @Override
+//    public int hashCode() {
+//        return 10;
+//    }
 
 }
