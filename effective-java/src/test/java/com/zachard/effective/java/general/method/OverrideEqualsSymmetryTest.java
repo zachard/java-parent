@@ -16,7 +16,9 @@
 
 package com.zachard.effective.java.general.method;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,5 +72,19 @@ public class OverrideEqualsSymmetryTest {
         notEqualsSet.add(notEqualsVo);
         logger.info("equals方法违反对称性时, 当向Set集合中加入B对象, 测试A对象是否在集合中: {}", 
                 notEqualsSet.contains(equalsVo));
+    }
+    
+    /**
+     * {@link Timestamp}与{@link Date}类型覆写{@link #equals(Object)}
+     * 方法违反对称性测试
+     */
+    @Test
+    public void timestampViolationSymmetryTest() {
+        Timestamp timestamp = new Timestamp(1521172126);
+        Date date = new Date(1521172126);
+        logger.info("Timestamp与Date违反equals方法对称性测试, timestamp.equals(date)返回: {}, "
+                + "date.equals(timestampl)返回: {}, 是否遵守对称性: {}", 
+                timestamp.equals(date), date.equals(timestamp), 
+                (timestamp.equals(date) == date.equals(timestamp)));
     }
 }
