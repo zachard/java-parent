@@ -32,6 +32,11 @@ public final class NotOverrideHashCodeVo {
     private final short lineNumber;
     
     /**
+     * 缓存散列码的域
+     */
+    private volatile int hashCode;
+    
+    /**
      * 构造器
      * 
      * @param areaCode   地区编码
@@ -79,17 +84,37 @@ public final class NotOverrideHashCodeVo {
 //        return 42;
 //    }
     
+//    /**
+//     * 合法并且有价值的覆写{@link #hashCode()}方法
+//     * 
+//     * @return  散列函数计算的散列值
+//     */
+//    @Override
+//    public int hashCode() {
+//        int result = 17;
+//        result = 31 * result + areaCode;
+//        result = 31 * result + prefix;
+//        result = 31 * result + lineNumber;
+//        
+//        return result;
+//    }
+    
     /**
-     * 合法并且有价值的覆写{@link #hashCode()}方法
+     * 缓存散列码并对其进行延迟初始化
      * 
-     * @return  散列函数计算的散列值
+     * @return  散列码
      */
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + areaCode;
-        result = 31 * result + prefix;
-        result = 31 * result + lineNumber;
+        int result = hashCode;
+        
+        if (result == 0) {
+            result = 17;
+            result = 31 * result + areaCode;
+            result = 31 * result + prefix;
+            result = 31 * result + lineNumber;
+            hashCode = result;
+        }
         
         return result;
     }
