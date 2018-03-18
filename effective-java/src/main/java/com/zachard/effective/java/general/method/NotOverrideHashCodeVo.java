@@ -69,14 +69,29 @@ public final class NotOverrideHashCodeVo {
                 && vo.prefix == prefix && vo.areaCode == areaCode;
     }
     
+//    /**
+//     * 合法但是没有任何价值的{@link #hashCode()}覆写方式
+//     * 
+//     * @param  hashCode整数值
+//     */
+//    @Override
+//    public int hashCode() {
+//        return 42;
+//    }
+    
     /**
-     * 合法但是没有任何价值的{@link #hashCode()}覆写方式
+     * 合法并且有价值的覆写{@link #hashCode()}方法
      * 
-     * @param  hashCode整数值
+     * @return  散列函数计算的散列值
      */
     @Override
     public int hashCode() {
-        return 42;
+        int result = 17;
+        result = 31 * result + areaCode;
+        result = 31 * result + prefix;
+        result = 31 * result + lineNumber;
+        
+        return result;
     }
     
     /**
