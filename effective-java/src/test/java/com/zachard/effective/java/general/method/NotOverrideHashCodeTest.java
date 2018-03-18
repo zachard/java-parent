@@ -49,24 +49,24 @@ public class NotOverrideHashCodeTest {
     public void test() {
         NotOverrideHashCodeVo vo1 = new NotOverrideHashCodeVo(010, 8888, 8888);
         NotOverrideHashCodeVo vo2 = new NotOverrideHashCodeVo(010, 8888, 8888);
-        logger.info("覆写了equals方法但未覆写hashCode方法的两个对象通过equals方法比较是否相等: {}", 
+        logger.info("覆写了equals方法并且覆写hashCode方法的两个对象通过equals方法比较是否相等: {}", 
                 vo1.equals(vo2));
-        logger.info("覆写了equals方法但未覆写hashCode方法的两个对象hashCode返回值是否相等: {}", 
+        logger.info("覆写了equals方法并且覆写hashCode方法的两个对象hashCode返回值是否相等: {}", 
                 vo1.hashCode() == vo2.hashCode());
         
         List<NotOverrideHashCodeVo> voList = new ArrayList<>();
         voList.add(vo1);
-        logger.info("覆写equals方法但未覆写hashCode方法, 将两个属性值完全相同的对象中一个加入到List集合, "
+        logger.info("覆写equals方法并且覆写hashCode方法, 将两个属性值完全相同的对象中一个加入到List集合, "
                 + "判断另一个对象在List集合中是否存在: {}", voList.contains(vo2));
         
         Set<NotOverrideHashCodeVo> voSet = new HashSet<>();
         voSet.add(vo1);
-        logger.info("覆写equals方法但未覆写hashCode方法, 将两个属性值完全相同的对象中一个加入到Set集合, "
+        logger.info("覆写equals方法并且覆写hashCode方法, 将两个属性值完全相同的对象中一个加入到Set集合, "
                 + "判断另一个对象在Set集合中是否存在: {}", voSet.contains(vo2));
         
         Map<NotOverrideHashCodeVo, String> voMap = new HashMap<>();
         voMap.put(vo1, "zachard");
-        logger.info("覆写equals方法但未覆写hashCode方法, 将两个属性值完全相同的对象中一个作为Map的键, " 
+        logger.info("覆写equals方法并且覆写hashCode方法, 将两个属性值完全相同的对象中一个作为Map的键, " 
                 + "通过另外一个对象从Map中获取的值为: {}", voMap.get(vo2));
     }
 

@@ -70,6 +70,16 @@ public final class NotOverrideHashCodeVo {
     }
     
     /**
+     * 合法但是没有任何价值的{@link #hashCode()}覆写方式
+     * 
+     * @param  hashCode整数值
+     */
+    @Override
+    public int hashCode() {
+        return 42;
+    }
+    
+    /**
      * 检查参数是否合法
      * 
      * @param arg   参数
