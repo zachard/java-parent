@@ -16,6 +16,8 @@
 
 package com.zachard.effective.java.general.method;
 
+import java.text.MessageFormat;
+
 /**
  * <code>Effitive Java</code>第三章: 对于所有对象都通用的方法
  * 始终要覆写{@link #toString()}方法 
@@ -41,7 +43,7 @@ public class OverrideToStringVo {
      */
     public OverrideToStringVo(int areaCode, int prefix, int lineNumber) {
         rangeCheck(areaCode, 999, "area code");
-        rangeCheck(prefix, 9999, "prefix");
+        rangeCheck(prefix, 999, "prefix");
         rangeCheck(lineNumber, 9999, "line number");
         this.areaCode = (short) areaCode;
         this.prefix = (short) prefix;
@@ -78,7 +80,7 @@ public class OverrideToStringVo {
      */
     @Override
     public String toString() {
-        return String.format("(%03d) %03d-%04d", 
+        return MessageFormat.format("({0,number,000}) {1,number,000}-{2,number,0000}", 
                 areaCode, prefix, lineNumber);
     }
 
