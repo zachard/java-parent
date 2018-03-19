@@ -17,6 +17,7 @@
 package com.zachard.effective.java.general.method;
 
 import java.text.MessageFormat;
+import java.text.ParseException;
 
 /**
  * <code>Effitive Java</code>第三章: 对于所有对象都通用的方法
@@ -34,6 +35,9 @@ public class OverrideToStringVo {
     private final short prefix;
     private final short lineNumber;
     
+    private static final String FORMAT = "({0,number,000}) {1,number,000}-{2,number,0000}";
+    private static final MessageFormat MESSAGE_FORMAT = new MessageFormat(FORMAT);
+    
     /**
      * 构造器
      * 
@@ -48,6 +52,19 @@ public class OverrideToStringVo {
         this.areaCode = (short) areaCode;
         this.prefix = (short) prefix;
         this.lineNumber = (short) lineNumber;
+    }
+    
+    /**
+     * 将{@link #toString()}方法输出的字符串转换为对象的构造器
+     * 
+     * @param string  {@link #toString()}输出的字符串
+     * @throws ParseException   异常
+     */
+    public OverrideToStringVo(String string) throws ParseException {
+        Object[] fields = MESSAGE_FORMAT.parse(string);
+        this.areaCode = ((Long) fields[0]).shortValue();
+        this.prefix = ((Long) fields[1]).shortValue();
+        this.lineNumber = ((Long) fields[2]).shortValue();
     }
     
     /**
@@ -82,6 +99,27 @@ public class OverrideToStringVo {
     public String toString() {
         return MessageFormat.format("({0,number,000}) {1,number,000}-{2,number,0000}", 
                 areaCode, prefix, lineNumber);
+    }
+
+    /**
+     * @return the areaCode
+     */
+    public short getAreaCode() {
+        return areaCode;
+    }
+
+    /**
+     * @return the prefix
+     */
+    public short getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * @return the lineNumber
+     */
+    public short getLineNumber() {
+        return lineNumber;
     }
 
 }

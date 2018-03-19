@@ -16,6 +16,7 @@
 
 package com.zachard.effective.java.general.method;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,21 @@ public class OverrideToStringTest {
         
         logger.info("覆写toString方法后, 打印Map集合的结果为: {}", orMap);
         logger.info("未覆写toString方法, 打印Map集合的结果为: {}", norMap);
+    }
+    
+    /**
+     * 将{@link #toString()}方法生成的字符串转换为对象测试
+     * @throws ParseException 
+     */
+    @Test
+    public void string2ObjectTest() throws ParseException {
+        OverrideToStringVo preVo = new OverrideToStringVo(408, 867, 5309);
+        String strVal = preVo.toString();
+        logger.info("将toString按格式打印的字符串转换为对象测试, 初始对象为: {}", preVo);
+        OverrideToStringVo postVo = new OverrideToStringVo(strVal);
+        logger.info("将toString按格式打印的字符串转换为对象测试, 由字符串转换得到的对象各个域的值为: "
+                + "areaCode: {}, prefix: {}, lineNumber: {}", postVo.getAreaCode(), 
+                postVo.getPrefix(), postVo.getLineNumber());
     }
 
 }
