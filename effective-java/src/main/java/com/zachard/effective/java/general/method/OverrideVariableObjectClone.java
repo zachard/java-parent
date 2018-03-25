@@ -103,7 +103,10 @@ public class OverrideVariableObjectClone implements Cloneable {
     @Override
     public OverrideVariableObjectClone clone() {
         try {
-            return (OverrideVariableObjectClone) super.clone();
+            OverrideVariableObjectClone result = (OverrideVariableObjectClone) super.clone();
+            // 对于包含可变对象的域递归调用其clone方法
+            result.elements = elements.clone();
+            return result;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
