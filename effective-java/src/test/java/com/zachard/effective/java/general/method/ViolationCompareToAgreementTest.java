@@ -16,7 +16,10 @@
 
 package com.zachard.effective.java.general.method;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -58,6 +61,26 @@ public class ViolationCompareToAgreementTest {
 		logger.info("第一个数组排序后的结果为: {}", Arrays.toString(voArr1));
 		logger.info("第二个数组排序后的结果为: {}", Arrays.toString(voArr2));
 		logger.info("第三个数组排序后的结果为: {}", Arrays.toString(voArr3));
+	} 
+	
+	/**
+	 * 当 (x.compareTo(y) == 0) == (x.equals(y)) 不满足时, 容易出现问题
+	 */
+	@Test
+	public void testCompareToEquality() {
+		BigDecimal one1 = new BigDecimal("1.0");
+		BigDecimal one2 = new BigDecimal("1.00");
+		
+		HashSet<BigDecimal> bigDecimalHash = new HashSet<>();
+		bigDecimalHash.add(one1);
+		bigDecimalHash.add(one2);
+		
+		TreeSet<BigDecimal> bigDecimalTree = new TreeSet<>();
+		bigDecimalTree.add(one1);
+		bigDecimalTree.add(one2);
+		
+		logger.info("将值为1.0与1.00的BigDecimal对象添加到HashSet, HashSet集合中元素个数为: {}", bigDecimalHash.size());
+		logger.info("将值为1.0与1.00的BigDecimal对象添加到TreeSet, TreeSet集合中元素个数为: {}", bigDecimalTree.size());
 	} 
 
 }
