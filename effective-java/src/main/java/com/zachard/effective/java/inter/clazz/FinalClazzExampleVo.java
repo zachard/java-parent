@@ -29,6 +29,13 @@ package com.zachard.effective.java.inter.clazz;
 public final class FinalClazzExampleVo {
 	
 	/**
+	 * 不可变对象可以被自由的共享, 应该为频繁用到的值提供公有静态常量
+	 */
+	public static final FinalClazzExampleVo ZERO = new FinalClazzExampleVo(0, 0);
+	public static final FinalClazzExampleVo ONE = new FinalClazzExampleVo(1, 0);
+	public static final FinalClazzExampleVo I = new FinalClazzExampleVo(0, 1);
+	
+	/**
 	 * 所有的域都是final和私有
 	 */
 	private final double re;
