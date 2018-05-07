@@ -47,9 +47,31 @@ public final class FinalClazzExampleVo {
 	 * @param re   实部
 	 * @param im   虚部
 	 */
-	public FinalClazzExampleVo(double re, double im) {
+//	public FinalClazzExampleVo(double re, double im) {
+//		this.re = re;
+//		this.im = im;
+//	}
+	
+	/**
+	 * 将构造器私有
+	 * 
+	 * @param re    实部
+	 * @param im    虚部
+	 */
+	private FinalClazzExampleVo(double re, double im) {
 		this.re = re;
 		this.im = im;
+	}
+	
+	/**
+	 * 静态工厂方法代替公有构造器
+	 * 
+	 * @param re   实部
+	 * @param im   虚部
+	 * @return     复数
+	 */
+	public static FinalClazzExampleVo valueOf(double re, double im) {
+		return new FinalClazzExampleVo(re,im);
 	}
 	
 	/**
