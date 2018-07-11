@@ -24,7 +24,8 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.zachard.java.hello.bean.repay.trial.req.RepaymentTrialReq;
 import com.zachard.java.hello.bean.repay.trial.res.TotalRepayDetail;
-import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalInterestRepayService;
+import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalInterestRepayServiceImpl;
+import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalRepayServiceImpl;
 
 /**
  * 等额本息还款计划试算测试
@@ -34,21 +35,38 @@ import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalInterestRep
  * @author zachard
  * @version 1.0.0
  */
-public class EqualPrincipalInterestRepayServiceTest {
+public class RepaymentTrialServiceTest {
 	
 	/**
 	 * 等额本息还款计算试算测试
 	 */
 	@Test
-	public void calculateRepayPlanTest() {
+	public void equalPrincipalInterestTest() {
 		RepaymentTrialReq req = new RepaymentTrialReq();
-		req.setLoanAmount(new BigDecimal(0));
+		req.setLoanAmount(new BigDecimal(100000));
 		req.setLoanDate(new Date());
-		req.setLoanInterest(new BigDecimal(5));
+		req.setLoanInterest(new BigDecimal(4.35));
 		req.setLoanTerm(12);
 		req.setRepayMethod("01");
 		
-		RepaymentTrialService service = new EqualPrincipalInterestRepayService();
+		RepaymentTrialService service = new EqualPrincipalInterestRepayServiceImpl();
+		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
+		System.err.println(JSON.toJSONString(totalDetail));
+	} 
+	
+	/**
+	 * 等额本金还款方式还款计划试算
+	 */
+	@Test
+	public void equalPrincipalTest() {
+		RepaymentTrialReq req = new RepaymentTrialReq();
+		req.setLoanAmount(new BigDecimal(100000));
+		req.setLoanDate(new Date());
+		req.setLoanInterest(new BigDecimal(4.35));
+		req.setLoanTerm(12);
+		req.setRepayMethod("02");
+		
+		RepaymentTrialService service = new EqualPrincipalRepayServiceImpl();
 		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalDetail));
 	} 

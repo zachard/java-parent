@@ -17,8 +17,6 @@
 package com.zachard.java.hello.service.repay.trial;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 /**
  * 还款计划抽象类
@@ -51,8 +49,14 @@ public abstract class AbstractRepaymentTrialService implements RepaymentTrialSer
 	protected static final int LAST_SCALE = 2;
 	
 	/**
-	 * 保留两位小数精度并且四舍五入
+	 * 将贷款年利率转换为月利率
+	 * 
+	 * @param yearRate   贷款年利率
+	 * @return           贷款月利率
 	 */
-	protected static final MathContext PRECISION_2_HAF_UP = new MathContext(2, RoundingMode.HALF_UP);
+	protected BigDecimal getMonthlyInterestRate(BigDecimal yearRate) {
+		return yearRate.divide(PERCENTAGE)
+				.divide(TWELVE_MONTHS, SCALE, BigDecimal.ROUND_HALF_UP);
+	} 
 
 }

@@ -27,46 +27,32 @@ import com.zachard.java.hello.bean.repay.trial.res.TotalRepayDetail;
 import com.zachard.java.hello.service.repay.trial.AbstractRepaymentTrialService;
 
 /**
- * 等额本息还款方式还款方式计算
+ * 等额本金还款方式还款计划试算
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class EqualPrincipalInterestRepayService extends AbstractRepaymentTrialService {
+public class EqualPrincipalRepayServiceImpl extends AbstractRepaymentTrialService {
 
 	/**
-	 * 等额本息方式计算还款计划
+	 * 计算等额本金还款方式还款计划
 	 * 
-	 * @param req  贷款请求参数
-	 * @return     还款计划详情
+	 * @param  req   贷款请求参数
+	 * @return       还款计划详情
 	 */
 	@Override
 	public TotalRepayDetail calculateRepayPlan(RepaymentTrialReq req) {
 		// 1 计算每期利率
-		BigDecimal perInterest = req.getLoanInterest().divide(PERCENTAGE).divide(TWELVE_MONTHS, SCALE, BigDecimal.ROUND_HALF_UP);
+		BigDecimal perInterest = getMonthlyInterestRate(req.getLoanInterest());
 		System.err.println("每期利率为: " + perInterest);
-					
-		// 2. 计算每月固定还款额
-		BigDecimal monthlyRepayAmount;
 		
-		if (BigDecimal.ZERO.compareTo(req.getLoanInterest()) == 0) {
-			// 利率为0的情况
-			monthlyRepayAmount = req.getLoanAmount().divide(new BigDecimal(req.getLoanTerm()), LAST_SCALE, BigDecimal.ROUND_HALF_UP);
-		} else {
-			// 2.1 计算分母 (1+r)^N-1
-			BigDecimal denominator = BigDecimal.ONE.add(perInterest).pow(req.getLoanTerm()).subtract(BigDecimal.ONE);
-			System.err.println("分母为: " + denominator);
-			// 2.2 计算分子 P*r*(1+r)^N
-			BigDecimal numerator = BigDecimal.ONE.add(perInterest).pow(req.getLoanTerm()).multiply(perInterest).multiply(req.getLoanAmount());
-			System.err.println("分子为: " + numerator);
-			// 2.3 计算每月还款额 = 分子 / 分母
-			monthlyRepayAmount = numerator.divide(denominator, LAST_SCALE, BigDecimal.ROUND_HALF_UP);
-		}
-		System.err.println("每月还款额为: " + monthlyRepayAmount);
+		// 2. 计算每月还款本金
+		BigDecimal monthlyRepayPrincipal = req.getLoanAmount().divide(new BigDecimal(req.getLoanTerm()), LAST_SCALE, BigDecimal.ROUND_HALF_UP);
+		System.err.println("每月还款本金为: " + monthlyRepayPrincipal);
 		
-		// 3. 计算各期还款详情
+		// 3. 计算还款计划的还款详情
 		TotalRepayDetail totalRepayDetail = new TotalRepayDetail();
 		List<SingleRepayDetail> detailList = new ArrayList<>();
 		// 3.1 每期剩余应还本金、累计还款利息、累计还款本金、累计还款总额
@@ -77,38 +63,38 @@ public class EqualPrincipalInterestRepayService extends AbstractRepaymentTrialSe
 		
 		// 每期应还的利息、本金
 		BigDecimal insterest;
-		BigDecimal principle;
 		// 计算每期还款日期
 		Calendar calendar = Calendar.getInstance();
 		
 		for (int i = 1; i < req.getLoanTerm() + 1; i++) {
 			SingleRepayDetail detail = new SingleRepayDetail();
-			// 3.2 本期应还利息并累计还款利息
+			
+			if (i == req.getLoanTerm()) {
+				// 最后一期还款本金应该等于剩余的本金, 避免小数点不精确导致还款总额不对称
+				// 注: 如果最后一期不这样处理, 会引起用户少还一点钱, 10万、4.35%、12期少还0.04元
+				//     但是如果这样处理, 会导致最后一期的还款本金比前面期本金多0.04元
+				monthlyRepayPrincipal = remainingPriciple;
+			}
+			
+			// 3.2 本期应还利息及累计还款利息
 			insterest = remainingPriciple.multiply(perInterest).setScale(LAST_SCALE, BigDecimal.ROUND_HALF_UP);
 			detail.setShouldRepayInterest(insterest);
 			totalRepayInsterest = totalRepayInsterest.add(insterest);
-			// 3.3 本期应还本金并累计还款本金
-			
-			if (i == req.getLoanTerm()) {
-				// 最后一期应还本金就等于上一期剩余的本金, 防止小数点不精确导致的计算问题
-				principle = remainingPriciple;
-			} else {
-				principle = monthlyRepayAmount.subtract(insterest);
-			}
-			 
-			detail.setShouldRepayPrinciple(principle);
-			totalRepayPrinciple = totalRepayPrinciple.add(principle);
-			// 3.4 累计还款金额
-			totalRepayAmount = totalRepayAmount.add(insterest).add(principle);
-			// 3.5 计算每月剩余还款本金
-			remainingPriciple = remainingPriciple.subtract(principle);
+			// 3.3 本期应还本金及累计还款本金
+			detail.setShouldRepayPrinciple(monthlyRepayPrincipal);
+			totalRepayPrinciple = totalRepayPrinciple.add(monthlyRepayPrincipal);
+			// 3.4 每期还款金额及累计还款总额
+			detail.setShouldRepayAmount(monthlyRepayPrincipal.add(insterest));
+			totalRepayAmount = totalRepayAmount.add(monthlyRepayPrincipal).add(insterest);
+			// 3.5 每期之后剩余本金
+			remainingPriciple = remainingPriciple.subtract(monthlyRepayPrincipal);
 			detail.setRemainingPrinciple(remainingPriciple);
-			// 3.6 设置期数及本期应还日期
+			// 3.6 设置相应期数及还款时间
 			detail.setTerm(i);
 			calendar.setTime(req.getLoanDate());
 			calendar.add(Calendar.MONTH, i);
 			detail.setShouldRepayDate(calendar.getTime());
-			// 3.7 将每期还款详情添加到还款详情列表
+			// 将还款详情添加到列表
 			detailList.add(detail);
 		}
 		
@@ -116,7 +102,7 @@ public class EqualPrincipalInterestRepayService extends AbstractRepaymentTrialSe
 		totalRepayDetail.setTotalReapyPrinciple(totalRepayPrinciple);
 		totalRepayDetail.setTotalRepayInterest(totalRepayInsterest);
 		totalRepayDetail.setTotalRepayAmount(totalRepayAmount);
-		totalRepayDetail.setTotalTerm(req.getLoanTerm());  // 总的还款期数就是申请的期数
+		totalRepayDetail.setTotalTerm(req.getLoanTerm());  // 还款期数就是贷款期数
 		
 		return totalRepayDetail;
 	}
