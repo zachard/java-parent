@@ -26,6 +26,7 @@ import com.zachard.java.hello.bean.repay.trial.req.RepaymentTrialReq;
 import com.zachard.java.hello.bean.repay.trial.res.TotalRepayDetail;
 import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalInterestRepayServiceImpl;
 import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalRepayServiceImpl;
+import com.zachard.java.hello.service.repay.trial.impl.MonthlyPaymentInterestDueRepayServiceImpl;
 
 /**
  * 等额本息还款计划试算测试
@@ -60,13 +61,30 @@ public class RepaymentTrialServiceTest {
 	@Test
 	public void equalPrincipalTest() {
 		RepaymentTrialReq req = new RepaymentTrialReq();
-		req.setLoanAmount(new BigDecimal(100000));
+		req.setLoanAmount(new BigDecimal(0));
 		req.setLoanDate(new Date());
 		req.setLoanInterest(new BigDecimal(4.35));
 		req.setLoanTerm(12);
 		req.setRepayMethod("02");
 		
 		RepaymentTrialService service = new EqualPrincipalRepayServiceImpl();
+		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
+		System.err.println(JSON.toJSONString(totalDetail));
+	} 
+	
+	/**
+	 * 按期付息到期一次性还清本金
+	 */
+	@Test
+	public void monthlyPaymentInterestDueTest() {
+		RepaymentTrialReq req = new RepaymentTrialReq();
+		req.setLoanAmount(new BigDecimal(100000));
+		req.setLoanDate(new Date());
+		req.setLoanInterest(new BigDecimal(4.35));
+		req.setLoanTerm(12);
+		req.setRepayMethod("03");
+		
+		RepaymentTrialService service = new MonthlyPaymentInterestDueRepayServiceImpl();
 		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalDetail));
 	} 
