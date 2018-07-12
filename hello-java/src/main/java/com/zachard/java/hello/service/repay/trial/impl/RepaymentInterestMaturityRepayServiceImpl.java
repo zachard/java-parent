@@ -35,6 +35,11 @@ import com.zachard.java.hello.service.repay.trial.AbstractRepaymentTrialService;
  * @version 1.0.0
  */
 public class RepaymentInterestMaturityRepayServiceImpl extends AbstractRepaymentTrialService {
+	
+	/**
+	 * 私有化构造器, 保持单例模式
+	 */
+	private RepaymentInterestMaturityRepayServiceImpl() {}
 
 	/**
 	 * 到期一次性还本付息还款计划计算
@@ -79,6 +84,26 @@ public class RepaymentInterestMaturityRepayServiceImpl extends AbstractRepayment
 		totalRepayDetail.setTotalTerm(1);
 		
 		return totalRepayDetail;
+	}
+	
+	/**
+	 * 获取单例对象
+	 * 
+	 * @return  获取单例对象
+	 */
+	public static RepaymentInterestMaturityRepayServiceImpl getInstance() {
+		return SingletonHolder.INSTANCE;
+	} 
+	
+	/**
+	 * 保持单例模式所需内部类
+	 * 
+	 * @author richard
+	 *
+	 */
+	private static class SingletonHolder {
+		private static final RepaymentInterestMaturityRepayServiceImpl INSTANCE = 
+				new RepaymentInterestMaturityRepayServiceImpl();
 	}
 
 }

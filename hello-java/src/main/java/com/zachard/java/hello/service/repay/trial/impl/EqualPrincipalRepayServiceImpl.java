@@ -35,6 +35,11 @@ import com.zachard.java.hello.service.repay.trial.AbstractRepaymentTrialService;
  * @version 1.0.0
  */
 public class EqualPrincipalRepayServiceImpl extends AbstractRepaymentTrialService {
+	
+	/**
+	 * 私有化构造器, 保持单例模式
+	 */
+	private EqualPrincipalRepayServiceImpl() {}
 
 	/**
 	 * 计算等额本金还款方式还款计划
@@ -105,6 +110,26 @@ public class EqualPrincipalRepayServiceImpl extends AbstractRepaymentTrialServic
 		totalRepayDetail.setTotalTerm(req.getLoanTerm());  // 还款期数就是贷款期数
 		
 		return totalRepayDetail;
+	}
+	
+	/**
+	 * 获取当前类型的单例对象
+	 * 
+	 * @return   当前类型的单例对象
+	 */
+	public static EqualPrincipalRepayServiceImpl getInstance() {
+		return SingletonHolder.INSTANCE;
+	} 
+	
+	/**
+	 * 单例模式所需静态内部类
+	 * 
+	 * @author richard
+	 *
+	 */
+	private static class SingletonHolder {
+		private static final EqualPrincipalRepayServiceImpl INSTANCE = 
+				new EqualPrincipalRepayServiceImpl();
 	}
 
 }

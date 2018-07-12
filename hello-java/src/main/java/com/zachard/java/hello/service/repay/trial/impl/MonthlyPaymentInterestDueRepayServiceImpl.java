@@ -35,6 +35,11 @@ import com.zachard.java.hello.service.repay.trial.AbstractRepaymentTrialService;
  * @version 1.0.0
  */
 public class MonthlyPaymentInterestDueRepayServiceImpl extends AbstractRepaymentTrialService {
+	
+	/**
+	 * 构造器私有化, 保持为单例模式
+	 */
+	private MonthlyPaymentInterestDueRepayServiceImpl() {}
 
 	/**
 	 * 按月付息到期一次性归还本金还款方式
@@ -105,6 +110,26 @@ public class MonthlyPaymentInterestDueRepayServiceImpl extends AbstractRepayment
 		totalRepayDetail.setTotalTerm(req.getLoanTerm());  // 还款期数就是贷款期数
 		
 		return totalRepayDetail;
+	}
+	
+	/**
+	 * 单例对象获取方法
+	 * 
+	 * @return   单例对象
+	 */
+	public static MonthlyPaymentInterestDueRepayServiceImpl getInstance() {
+		return SingletonHolder.INSTANCE;
+	} 
+	
+	/**
+	 * 保持单例模式所需内部类
+	 * 
+	 * @author richard
+	 *
+	 */
+	private static class SingletonHolder {
+		private static final MonthlyPaymentInterestDueRepayServiceImpl INSTANCE = 
+				new MonthlyPaymentInterestDueRepayServiceImpl();
 	}
 
 }

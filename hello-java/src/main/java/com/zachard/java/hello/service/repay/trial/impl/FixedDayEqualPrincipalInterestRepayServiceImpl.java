@@ -36,6 +36,11 @@ import com.zachard.java.hello.service.repay.trial.AbstractRepaymentTrialService;
  * @version 1.0.0
  */
 public class FixedDayEqualPrincipalInterestRepayServiceImpl extends AbstractRepaymentTrialService {
+	
+	/**
+	 * 私有化构造器, 保持单例模式
+	 */
+	private FixedDayEqualPrincipalInterestRepayServiceImpl() {}
 
 	/**
 	 * 固定还款日等额本息还款计划试算
@@ -140,6 +145,25 @@ public class FixedDayEqualPrincipalInterestRepayServiceImpl extends AbstractRepa
 		totalRepayDetail.setTotalTerm(realTerm);
 		
 		return totalRepayDetail;
+	}
+	
+	/**
+	 * 单例模式获取对象方法
+	 * 
+	 * @return   单例对象
+	 */
+	public static FixedDayEqualPrincipalInterestRepayServiceImpl getInstance() {
+		return SingletonHolder.INSTANCE;
+	} 
+	
+	/**
+	 * 单例模式所需的内部类
+	 * @author richard
+	 *
+	 */
+	private static class SingletonHolder {
+		private static final FixedDayEqualPrincipalInterestRepayServiceImpl INSTANCE = 
+				new FixedDayEqualPrincipalInterestRepayServiceImpl();
 	}
 	
 	/**

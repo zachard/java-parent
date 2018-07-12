@@ -53,7 +53,7 @@ public class RepaymentTrialServiceTest {
 		req.setLoanTerm(12);
 		req.setRepayMethod("01");
 		
-		RepaymentTrialService service = new EqualPrincipalInterestRepayServiceImpl();
+		RepaymentTrialService service = EqualPrincipalInterestRepayServiceImpl.getInstance();
 		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalDetail));
 	} 
@@ -70,7 +70,7 @@ public class RepaymentTrialServiceTest {
 		req.setLoanTerm(12);
 		req.setRepayMethod("02");
 		
-		RepaymentTrialService service = new EqualPrincipalRepayServiceImpl();
+		RepaymentTrialService service = EqualPrincipalRepayServiceImpl.getInstance();
 		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalDetail));
 	} 
@@ -87,7 +87,7 @@ public class RepaymentTrialServiceTest {
 		req.setLoanTerm(12);
 		req.setRepayMethod("03");
 		
-		RepaymentTrialService service = new MonthlyPaymentInterestDueRepayServiceImpl();
+		RepaymentTrialService service = MonthlyPaymentInterestDueRepayServiceImpl.getInstance();
 		TotalRepayDetail totalDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalDetail));
 	} 
@@ -104,7 +104,7 @@ public class RepaymentTrialServiceTest {
 		req.setLoanTerm(6);
 		req.setRepayMethod("04");
 		
-		RepaymentTrialService service = new RepaymentInterestMaturityRepayServiceImpl();
+		RepaymentTrialService service = RepaymentInterestMaturityRepayServiceImpl.getInstance();
 		TotalRepayDetail totalRepayDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalRepayDetail));
 	} 
@@ -124,7 +124,7 @@ public class RepaymentTrialServiceTest {
 		req.setLoanTerm(24);
 		req.setRepayMethod("05");
 		
-		RepaymentTrialService service = new FixedDayEqualPrincipalInterestRepayServiceImpl();
+		RepaymentTrialService service = FixedDayEqualPrincipalInterestRepayServiceImpl.getInstance();
 		TotalRepayDetail totalRepayDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalRepayDetail));
 	} 
