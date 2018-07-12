@@ -17,6 +17,7 @@
 package com.zachard.java.hello.service.repay.trial;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
@@ -26,6 +27,7 @@ import com.zachard.java.hello.bean.repay.trial.req.RepaymentTrialReq;
 import com.zachard.java.hello.bean.repay.trial.res.TotalRepayDetail;
 import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalInterestRepayServiceImpl;
 import com.zachard.java.hello.service.repay.trial.impl.EqualPrincipalRepayServiceImpl;
+import com.zachard.java.hello.service.repay.trial.impl.FixedDayEqualPrincipalInterestRepayServiceImpl;
 import com.zachard.java.hello.service.repay.trial.impl.MonthlyPaymentInterestDueRepayServiceImpl;
 import com.zachard.java.hello.service.repay.trial.impl.RepaymentInterestMaturityRepayServiceImpl;
 
@@ -103,6 +105,26 @@ public class RepaymentTrialServiceTest {
 		req.setRepayMethod("04");
 		
 		RepaymentTrialService service = new RepaymentInterestMaturityRepayServiceImpl();
+		TotalRepayDetail totalRepayDetail = service.calculateRepayPlan(req);
+		System.err.println(JSON.toJSONString(totalRepayDetail));
+	} 
+	
+	/**
+	 * 固定还款日等额本息还款计划测试
+	 */
+	@Test
+	public void fixedDayEqualPrincipalInterestTest() {
+		RepaymentTrialReq req = new RepaymentTrialReq();
+		req.setLoanAmount(new BigDecimal(5000));
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(2017, Calendar.DECEMBER, 28);
+		req.setLoanDate(calendar.getTime());
+		System.err.println("贷款时间为: " + calendar.getTime());
+		req.setLoanInterest(new BigDecimal(144));
+		req.setLoanTerm(24);
+		req.setRepayMethod("05");
+		
+		RepaymentTrialService service = new FixedDayEqualPrincipalInterestRepayServiceImpl();
 		TotalRepayDetail totalRepayDetail = service.calculateRepayPlan(req);
 		System.err.println(JSON.toJSONString(totalRepayDetail));
 	} 

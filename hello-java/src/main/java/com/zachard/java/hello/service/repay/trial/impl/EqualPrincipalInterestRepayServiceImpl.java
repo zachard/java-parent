@@ -49,21 +49,8 @@ public class EqualPrincipalInterestRepayServiceImpl extends AbstractRepaymentTri
 		System.err.println("每期利率为: " + perInterest);
 					
 		// 2. 计算每月固定还款额
-		BigDecimal monthlyRepayAmount;
-		
-		if (BigDecimal.ZERO.compareTo(req.getLoanInterest()) == 0) {
-			// 利率为0的情况
-			monthlyRepayAmount = req.getLoanAmount().divide(new BigDecimal(req.getLoanTerm()), LAST_SCALE, BigDecimal.ROUND_HALF_UP);
-		} else {
-			// 2.1 计算分母 (1+r)^N-1
-			BigDecimal denominator = BigDecimal.ONE.add(perInterest).pow(req.getLoanTerm()).subtract(BigDecimal.ONE);
-			System.err.println("分母为: " + denominator);
-			// 2.2 计算分子 P*r*(1+r)^N
-			BigDecimal numerator = BigDecimal.ONE.add(perInterest).pow(req.getLoanTerm()).multiply(perInterest).multiply(req.getLoanAmount());
-			System.err.println("分子为: " + numerator);
-			// 2.3 计算每月还款额 = 分子 / 分母
-			monthlyRepayAmount = numerator.divide(denominator, LAST_SCALE, BigDecimal.ROUND_HALF_UP);
-		}
+		BigDecimal monthlyRepayAmount = getEqualPrincipalInterestTermAmount(req.getLoanAmount(), 
+				req.getLoanTerm(), perInterest);
 		System.err.println("每月还款额为: " + monthlyRepayAmount);
 		
 		// 3. 计算各期还款详情
