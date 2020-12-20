@@ -17,6 +17,7 @@
 		<junit.version>4.12</junit.version>
 		<sl4fj.log4j.version>1.7.21</sl4fj.log4j.version>
 		<fastjson.version>1.2.47</fastjson.version>
+		<apache.mina.version>2.1.4</apache.mina.version>
 	</properties>
 
 	<dependencyManagement>
@@ -55,6 +56,13 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
+			</dependency>
+			
+			<!-- apache mina -->
+			<dependency>
+			    <groupId>org.apache.mina</groupId>
+			    <artifactId>mina-core</artifactId>
+			    <version>${apache.mina.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

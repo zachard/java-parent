@@ -25,5 +25,11 @@ package com.zachard.java.hello.constant;
  * @version 1.0.0
  */
 public interface Constant {
+    
+    final String DEFAULT_CHARSET = "UTF-8";   // 默认编码字符串
+    final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";  // 时间格式
+    final String CODEC_FILTER_NAME = "codec";  // Mina编码过滤器名称
+    final String LOGGER_FILTER_NAME = "logger";  // Mina日志过滤器名称
+    final int MINA_PORT = 9123;  // Mina通讯端口号
 
 }
