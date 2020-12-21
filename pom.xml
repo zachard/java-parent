@@ -18,6 +18,7 @@
 		<sl4fj.log4j.version>1.7.21</sl4fj.log4j.version>
 		<fastjson.version>1.2.47</fastjson.version>
 		<apache.mina.version>2.1.4</apache.mina.version>
+		<xstream.version>1.4.9</xstream.version>
 	</properties>
 
 	<dependencyManagement>
@@ -63,6 +64,13 @@
 			    <groupId>org.apache.mina</groupId>
 			    <artifactId>mina-core</artifactId>
 			    <version>${apache.mina.version}</version>
+			</dependency>
+			
+			<!-- XStream -->
+			<dependency>
+			    <groupId>com.thoughtworks.xstream</groupId>
+			    <artifactId>xstream</artifactId>
+			    <version>${xstream.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
