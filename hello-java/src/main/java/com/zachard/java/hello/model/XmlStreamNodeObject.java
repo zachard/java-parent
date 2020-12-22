@@ -26,7 +26,7 @@ import java.util.List;
  * @author zachard
  * @version 1.0.0
  */
-public class XmlStreamNodeObject {
+public class XmlStreamNodeObject<T> {
     
     private List<?> nodeObject;
 
