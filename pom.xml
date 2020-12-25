@@ -19,6 +19,8 @@
 		<fastjson.version>1.2.47</fastjson.version>
 		<apache.mina.version>2.1.4</apache.mina.version>
 		<xstream.version>1.4.9</xstream.version>
+		<common.lang3.version>3.11</common.lang3.version>
+		<commons.collection.version>3.2.1</commons.collection.version>
 	</properties>
 
 	<dependencyManagement>
@@ -71,6 +73,20 @@
 			    <groupId>com.thoughtworks.xstream</groupId>
 			    <artifactId>xstream</artifactId>
 			    <version>${xstream.version}</version>
+			</dependency>
+			
+			<!-- commons-lang3 -->
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			    <version>${common.lang3.version}</version>
+			</dependency>
+			
+			<!-- commons collections -->
+			<dependency>
+			    <groupId>commons-collections</groupId>
+			    <artifactId>commons-collections</artifactId>
+			    <version>${commons.collection.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
