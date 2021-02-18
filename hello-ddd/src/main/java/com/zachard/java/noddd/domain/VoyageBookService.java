@@ -14,40 +14,34 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain;
+package com.zachard.java.noddd.domain;
 
 /**
- * 采用ddd方式的货物类
+ * 航船预定处理服务类
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class Cargo {
+public class VoyageBookService {
 	
 	/**
-	 * 货物编号
+	 * 航船预定
+	 * 
+	 * @param voyage
+	 * @param cargo
+	 * @return
 	 */
-	private String cargoId;
-	
-	/**
-	 * 货物大小
-	 */
-	private double size;
-
-	/**
-	 * @return 货物大小
-	 */
-	public double getSize() {
-		return size;
-	}
-
-	/**
-	 * @param 设置货物的大小
-	 */
-	public void setSize(double size) {
-		this.size = size;
+	public int makeBooking(Voyage voyage, Cargo cargo) {
+		if ((voyage.getBookedSize() + cargo.getSize()) > (voyage.getCapacity() * voyage.getBookFactor())) {
+			return -1;  // 判断是否超过运载量
+		}
+		
+		cargo.setVoyageId(voyage.getVoyageId());  // 将运输货物与航运关联
+		voyage.setBookedSize(voyage.getBookedSize() + cargo.getSize());  // 更新航船已经被预定的运载量
+		
+		return 1;
 	}
 
 }

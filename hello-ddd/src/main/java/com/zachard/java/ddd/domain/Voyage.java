@@ -34,6 +34,11 @@ import com.zachard.java.ddd.domain.overbook.policy.OverbookingPolicy;
 public class Voyage {
 	
 	/**
+	 * 航船编号
+	 */
+	private String voyageId;
+	
+	/**
 	 * 航程运载量
 	 */
 	private double capacity;

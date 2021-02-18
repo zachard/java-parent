@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain;
+package com.zachard.java.noddd.domain;
 
 /**
- * 采用ddd方式的货物类
+ * 货物类
  * <pre>
  * </pre>
  *
@@ -35,19 +35,52 @@ public class Cargo {
 	 * 货物大小
 	 */
 	private double size;
+	
+	/**
+	 * 运输货物的航船编号
+	 */
+	private String voyageId;
 
 	/**
-	 * @return 货物大小
+	 * @return the cargoId
+	 */
+	public String getCargoId() {
+		return cargoId;
+	}
+
+	/**
+	 * @return the size
 	 */
 	public double getSize() {
 		return size;
 	}
 
 	/**
-	 * @param 设置货物的大小
+	 * @param cargoId the cargoId to set
+	 */
+	public void setCargoId(String cargoId) {
+		this.cargoId = cargoId;
+	}
+
+	/**
+	 * @param size the size to set
 	 */
 	public void setSize(double size) {
 		this.size = size;
+	}
+
+	/**
+	 * @return the voyageId
+	 */
+	public String getVoyageId() {
+		return voyageId;
+	}
+
+	/**
+	 * @param voyageId the voyageId to set
+	 */
+	public void setVoyageId(String voyageId) {
+		this.voyageId = voyageId;
 	}
 
 }
