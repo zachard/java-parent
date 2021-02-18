@@ -51,5 +51,6 @@
   <modules>
     <module>effective-java</module>
     <module>hello-java</module>
+    <module>hello-ddd</module>
   </modules>
 </project>
