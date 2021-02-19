@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.zachard.java.ddd.domain.Cargo;
-import com.zachard.java.ddd.domain.Voyage;
+import com.zachard.java.ddd.domain.overbook.model.Cargo;
+import com.zachard.java.ddd.domain.overbook.model.Voyage;
 import com.zachard.java.ddd.domain.overbook.policy.FactorOverbookingPolicyImpl;
 import com.zachard.java.ddd.domain.overbook.policy.OverbookingPolicy;
 

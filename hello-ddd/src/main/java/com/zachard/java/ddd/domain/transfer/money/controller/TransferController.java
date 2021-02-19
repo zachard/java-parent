@@ -14,28 +14,16 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain.overbook.policy;
-
-import com.zachard.java.ddd.domain.overbook.model.Cargo;
-import com.zachard.java.ddd.domain.overbook.model.Voyage;
+package com.zachard.java.ddd.domain.transfer.money.controller;
 
 /**
- * 航运运载量超载策略
+ * 转账示例Controller类
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public interface OverbookingPolicy {
-	
-	/**
-	 * 航运运载量超载策略
-	 * 
-	 * @param cargo
-	 * @param voyage
-	 * @return
-	 */
-	boolean isAllowed(Cargo cargo, Voyage voyage);
+public class TransferController {
 
 }

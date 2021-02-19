@@ -16,8 +16,8 @@
 
 package com.zachard.java.ddd.domain.overbook.policy;
 
-import com.zachard.java.ddd.domain.Cargo;
-import com.zachard.java.ddd.domain.Voyage;
+import com.zachard.java.ddd.domain.overbook.model.Cargo;
+import com.zachard.java.ddd.domain.overbook.model.Voyage;
 
 /**
  * 航运运载量超载策略具体实现

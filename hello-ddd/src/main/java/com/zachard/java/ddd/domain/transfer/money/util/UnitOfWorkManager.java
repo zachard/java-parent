@@ -14,28 +14,42 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain.overbook.policy;
+package com.zachard.java.ddd.domain.transfer.money.util;
 
-import com.zachard.java.ddd.domain.overbook.model.Cargo;
-import com.zachard.java.ddd.domain.overbook.model.Voyage;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zachard.java.ddd.domain.transfer.money.mapper.AccountMapper;
+import com.zachard.java.ddd.domain.transfer.money.model.Account;
 
 /**
- * 航运运载量超载策略
+ * 基础设施层
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public interface OverbookingPolicy {
+public class UnitOfWorkManager {
 	
 	/**
-	 * 航运运载量超载策略
-	 * 
-	 * @param cargo
-	 * @param voyage
-	 * @return
+	 * 需要持久化的列表
 	 */
-	boolean isAllowed(Cargo cargo, Voyage voyage);
+	private List<Account> accountList = new ArrayList<Account>();
+	
+	private AccountMapper accountMapper = new AccountMapper();
+	
+	/**
+	 * 将需要更新的账户添加到列表中
+	 * 
+	 * @param account
+	 */
+	public void addToUnitOfWork(Account account) {
+		accountList.add(account);
+	}
+	
+	public void confirm() {
+		//
+	}
 
 }

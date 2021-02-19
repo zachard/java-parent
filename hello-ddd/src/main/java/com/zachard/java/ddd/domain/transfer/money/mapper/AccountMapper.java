@@ -14,40 +14,40 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain;
+package com.zachard.java.ddd.domain.transfer.money.mapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zachard.java.ddd.domain.transfer.money.model.Account;
 
 /**
- * 采用ddd方式的货物类
+ * description...
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class Cargo {
+public class AccountMapper {
+	
+	private static List<Account> existAccountList = new ArrayList<Account>();
+	
+	static {
+		Account a123 = new Account();
+		a123.setAccountId("a123");
+	}
 	
 	/**
-	 * 货物编号
+	 * 将账户更新持久化到数据库
+	 * @param accountList
 	 */
-	private String cargoId;
+	public void update(List<Account> accountList) {
+		//update set balance = ${balance} where accountId = ${accountId}
+	}
 	
-	/**
-	 * 货物大小
-	 */
-	private double size;
-
-	/**
-	 * @return 货物大小
-	 */
-	public double getSize() {
-		return size;
-	}
-
-	/**
-	 * @param 设置货物的大小
-	 */
-	public void setSize(double size) {
-		this.size = size;
-	}
+//	public Account selectByAccountId(String accountId) {
+//		//
+//	}
 
 }

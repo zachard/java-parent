@@ -14,28 +14,40 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain.overbook.policy;
-
-import com.zachard.java.ddd.domain.overbook.model.Cargo;
-import com.zachard.java.ddd.domain.overbook.model.Voyage;
+package com.zachard.java.ddd.domain.overbook.model;
 
 /**
- * 航运运载量超载策略
+ * 采用ddd方式的货物类
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public interface OverbookingPolicy {
+public class Cargo {
 	
 	/**
-	 * 航运运载量超载策略
-	 * 
-	 * @param cargo
-	 * @param voyage
-	 * @return
+	 * 货物编号
 	 */
-	boolean isAllowed(Cargo cargo, Voyage voyage);
+	private String cargoId;
+	
+	/**
+	 * 货物大小
+	 */
+	private double size;
+
+	/**
+	 * @return 货物大小
+	 */
+	public double getSize() {
+		return size;
+	}
+
+	/**
+	 * @param 设置货物的大小
+	 */
+	public void setSize(double size) {
+		this.size = size;
+	}
 
 }

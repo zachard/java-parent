@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain;
+package com.zachard.java.ddd.domain.overbook.model;
 
 import java.util.ArrayList;
 import java.util.List;
