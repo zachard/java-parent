@@ -18,6 +18,7 @@ package com.zachard.java.ddd.domain.transfer.money.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.zachard.java.ddd.domain.transfer.money.model.Account;
 
@@ -31,12 +32,7 @@ import com.zachard.java.ddd.domain.transfer.money.model.Account;
  */
 public class AccountMapper {
 	
-	private static List<Account> existAccountList = new ArrayList<Account>();
-	
-	static {
-		Account a123 = new Account();
-		a123.setAccountId("a123");
-	}
+	private List<Account> existAccountList = new ArrayList<Account>();
 	
 	/**
 	 * 将账户更新持久化到数据库
@@ -46,8 +42,33 @@ public class AccountMapper {
 		//update set balance = ${balance} where accountId = ${accountId}
 	}
 	
-//	public Account selectByAccountId(String accountId) {
-//		//
-//	}
+	/**
+	 * 根据账户编号查询账户
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	public Account selectByAccountId(String accountId) {
+		initAccountData();
+		return existAccountList.stream()
+				.filter(account -> Objects.equals(accountId, account.getAccountId()))
+				.findFirst()
+				.orElse(null);
+	}
+	
+	/**
+	 * 初始化账户在数据库中的数据
+	 */
+	private void initAccountData() {
+		// 模拟存储在数据库中的账户数据
+		Account a123 = new Account();
+		a123.setAccountId("a123");
+		a123.setBalance(10000.00);
+		existAccountList.add(a123);
+		Account a234 = new Account();
+		a234.setAccountId("a234");
+		a234.setBalance(5000.00);
+		existAccountList.add(a234);
+	}
 
 }

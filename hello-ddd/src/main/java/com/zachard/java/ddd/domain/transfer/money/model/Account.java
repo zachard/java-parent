@@ -16,6 +16,11 @@
 
 package com.zachard.java.ddd.domain.transfer.money.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.zachard.java.ddd.domain.transfer.money.util.UnitOfWorkManager;
+
 /**
  * 转账账户类
  * <pre>
@@ -25,6 +30,10 @@ package com.zachard.java.ddd.domain.transfer.money.model;
  * @version 1.0.0
  */
 public class Account {
+	
+	private static Logger logger = LoggerFactory.getLogger(Account.class);
+	
+	private UnitOfWorkManager manager = UnitOfWorkManager.getInstance();  // 这里必须为单例
 	
 	/**
 	 * 账户id
@@ -70,6 +79,7 @@ public class Account {
 	 */
 	public void credit(double amount) {
 		this.balance = this.balance + amount;
+		manager.addToUnitOfWork(this);
 	}
 	
 	/**
@@ -78,6 +88,33 @@ public class Account {
 	 */
 	public void debit(double amount) {
 		this.balance = this.balance - amount;
+		manager.addToUnitOfWork(this);
+	}
+	
+	/**
+	 * 执行转账操作
+	 * 
+	 * @param toAccount
+	 * @param amount
+	 */
+	public void transferTo(Account toAccount, double amount) {
+		
+		if (amount <= 0) {
+			// 业务规则-转账金额必须大于0
+			logger.error("从账户-{}向账户-{}转账时, 转账金额不正确, 转账金额为: {}", 
+					this.accountId, toAccount.accountId, amount);
+			throw new RuntimeException("转账金额不正确");
+		}
+		
+		if (this.balance < amount) {
+			// 业务规则-转账之间必须校验当前账户余额是否充足
+			logger.error("从账户-{}向账户-{}转账时, 账户余额不足, 账户余额为: {}, 转账金额为: {}", 
+					this.accountId, toAccount.getAccountId(), this.balance, amount);  // 这里的日志是否合理
+			throw new RuntimeException("账户余额不足");
+		}
+		
+		toAccount.credit(amount);  // 将转账金额划入目标账户, 当前账户相应转出金额
+		debit(amount);
 	}
 
 }

@@ -14,35 +14,38 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain.transfer.money.controller;
+package com.zachard.java.test.ddd.transfer.money;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import com.zachard.java.ddd.domain.transfer.money.controller.TransferController;
 import com.zachard.java.ddd.domain.transfer.money.dto.TransferReq;
-import com.zachard.java.ddd.domain.transfer.money.dto.TransferResp;
-import com.zachard.java.ddd.domain.transfer.money.service.FundsTransferService;
 
 /**
- * 转账示例Controller类
+ * description...
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-// @RestController
-public class TransferController {
+public class TransferControllerTest {
 	
-	private FundsTransferService fundsTransferService = new FundsTransferService();
+	private TransferController controller;
 	
-	/**
-	 * 转账操作接口
-	 * @param req
-	 * @return
-	 */
-	// @RequestMapping("/transfer")
-	// @RequestBody
-	public TransferResp transfer(TransferReq req) {
-		fundsTransferService.transfer(req.getFromId(), req.getToId(), req.getAmount());
-		return new TransferResp();
+	@Before
+	public void before() {
+		controller = new TransferController();
+	}
+	
+	@Test
+	public void transferTest() {
+		TransferReq req = new TransferReq();
+		req.setFromId("a123");
+		req.setToId("a234");
+		req.setAmount(1000.00);
+		controller.transfer(req);
 	}
 
 }

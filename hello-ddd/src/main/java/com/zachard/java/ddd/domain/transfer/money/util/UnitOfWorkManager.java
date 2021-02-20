@@ -39,6 +39,24 @@ public class UnitOfWorkManager {
 	
 	private AccountMapper accountMapper = new AccountMapper();
 	
+	private UnitOfWorkManager() {
+		// 做成单例, 构造器私有化
+	}
+	
+	private static class UnitOfWorkManagerHolder {
+		// 用于构造单例的内部类
+		private static final UnitOfWorkManager INSTANCE = new UnitOfWorkManager();
+	}
+	
+	/**
+	 * 获取对象单例
+	 * 
+	 * @return
+	 */
+	public static final UnitOfWorkManager getInstance() {
+		return UnitOfWorkManagerHolder.INSTANCE;
+	}
+	
 	/**
 	 * 将需要更新的账户添加到列表中
 	 * 
@@ -48,8 +66,20 @@ public class UnitOfWorkManager {
 		accountList.add(account);
 	}
 	
+	/**
+	 * 持久化账户信息
+	 */
 	public void confirm() {
-		//
+		accountMapper.update(accountList);
+	}
+	
+	/**
+	 * 根据账户编号查询账户
+	 * @param accountId
+	 * @return
+	 */
+	public Account selectByAccountId(String accountId) {
+		return accountMapper.selectByAccountId(accountId);
 	}
 
 }
