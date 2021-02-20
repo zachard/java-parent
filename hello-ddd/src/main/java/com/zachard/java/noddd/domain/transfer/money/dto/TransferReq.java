@@ -14,73 +14,57 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.noddd.domain;
+package com.zachard.java.noddd.domain.transfer.money.dto;
 
 /**
- * 货物类
+ * description...
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class Cargo {
+public class TransferReq {
+	
+	private String fromId;
+	private String toId;
+	private double amount;
 	
 	/**
-	 * 货物编号
+	 * @return the fromId
 	 */
-	private String cargoId;
-	
-	/**
-	 * 货物大小
-	 */
-	private double size;
-	
-	/**
-	 * 运输货物的航船编号
-	 */
-	private String voyageId;
-
-	/**
-	 * @return the cargoId
-	 */
-	public String getCargoId() {
-		return cargoId;
+	public String getFromId() {
+		return fromId;
 	}
-
 	/**
-	 * @return the size
+	 * @return the toId
 	 */
-	public double getSize() {
-		return size;
+	public String getToId() {
+		return toId;
 	}
-
 	/**
-	 * @param cargoId the cargoId to set
+	 * @return the amount
 	 */
-	public void setCargoId(String cargoId) {
-		this.cargoId = cargoId;
+	public double getAmount() {
+		return amount;
 	}
-
 	/**
-	 * @param size the size to set
+	 * @param fromId the fromId to set
 	 */
-	public void setSize(double size) {
-		this.size = size;
+	public void setFromId(String fromId) {
+		this.fromId = fromId;
 	}
-
 	/**
-	 * @return the voyageId
+	 * @param toId the toId to set
 	 */
-	public String getVoyageId() {
-		return voyageId;
+	public void setToId(String toId) {
+		this.toId = toId;
 	}
-
 	/**
-	 * @param voyageId the voyageId to set
+	 * @param amount the amount to set
 	 */
-	public void setVoyageId(String voyageId) {
-		this.voyageId = voyageId;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 }

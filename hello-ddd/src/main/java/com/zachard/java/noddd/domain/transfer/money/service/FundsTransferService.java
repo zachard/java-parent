@@ -14,13 +14,13 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.ddd.domain.transfer.money.service;
+package com.zachard.java.noddd.domain.transfer.money.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zachard.java.ddd.domain.transfer.money.model.Account;
-import com.zachard.java.ddd.domain.transfer.money.util.UnitOfWorkManager;
+import com.zachard.java.noddd.domain.transfer.money.mapper.AccountMapper;
+import com.zachard.java.noddd.domain.transfer.money.model.Account;
 
 /**
  * description...
@@ -30,22 +30,18 @@ import com.zachard.java.ddd.domain.transfer.money.util.UnitOfWorkManager;
  * @author zachard
  * @version 1.0.0
  */
-//@Service
+// @Service
 public class FundsTransferService {
 	
 	private static Logger logger = LoggerFactory.getLogger(FundsTransferService.class);
-	private UnitOfWorkManager manager = UnitOfWorkManager.getInstance();  // 必须是单例
 	
-	/**
-	 * 执行转账业务
-	 * @param fromId
-	 * @param toId
-	 * @param amount
-	 */
-	//@Transcation事务注解
+	//@Resource 注解注入
+	private AccountMapper accountMapper = new AccountMapper();
+	
+	// @Transcation  事务控制
 	public void transfer(String fromId, String toId, double amount) {
-		Account fromAccount = manager.selectByAccountId(fromId);
-		Account toAccount = manager.selectByAccountId(toId);
+		Account fromAccount = accountMapper.selectByAccountId(fromId);
+		Account toAccount = accountMapper.selectByAccountId(toId);
 		
 		if (fromAccount == null || toAccount == null) {
 			// 业务规则-转账业务双方账号必须是真实有效账号
@@ -53,14 +49,30 @@ public class FundsTransferService {
 			throw new RuntimeException("账户不存在");
 		}
 		
+		if (amount <= 0) {
+			// 业务规则-转账金额必须大于0
+			logger.error("从账户-{}向账户-{}转账时, 转账金额不正确, 转账金额为: {}", 
+					fromAccount.getAccountId(), toAccount.getAccountId(), amount);
+			throw new RuntimeException("转账金额不正确");
+		}
+		
+		if (fromAccount.getBalance() < amount) {
+			// 业务规则-转账之间必须校验当前账户余额是否充足
+			logger.error("从账户-{}向账户-{}转账时, 账户余额不足, 账户余额为: {}, 转账金额为: {}", 
+					fromAccount.getAccountId(), toAccount.getAccountId(), fromAccount.getBalance(), amount);
+			throw new RuntimeException("账户余额不足");
+		}
+		
 		logger.info("执行转账操作, 转账之前, 转出账户编号为: {}, 转出账户余额为: {}", fromAccount.getAccountId(), fromAccount.getBalance());
 		logger.info("执行转账操作, 转账金额为: {}", amount);
 		logger.info("执行转账操作, 转账之前, 转入账户编号为: {}, 转入账户余额为: {}", toAccount.getAccountId(), toAccount.getBalance());
-		fromAccount.transferTo(toAccount, amount);  // 执行转账操作
+		toAccount.setBalance(toAccount.getBalance() + amount);  // 转入账户增加相应的金额
+		fromAccount.setBalance(fromAccount.getBalance() - amount);   // 转出账户减少相应的金额
 		logger.info("执行转账操作, 转账之后, 转出账户编号为: {}, 转出账户余额为: {}", fromAccount.getAccountId(), fromAccount.getBalance());
 		logger.info("执行转账操作, 转账之后, 转入账户编号为: {}, 转入账户余额为: {}", toAccount.getAccountId(), toAccount.getBalance());
 		
-		manager.confirm();  // 确认转账, 将数据持久化到数据库
+		accountMapper.update(fromAccount);  // 将变更后的对象持久化到数据库
+		accountMapper.update(toAccount);
 	}
 
 }

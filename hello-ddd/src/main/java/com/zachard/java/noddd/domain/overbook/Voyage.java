@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.noddd.domain;
+package com.zachard.java.noddd.domain.overbook;
 
 /**
  * 航运行程类

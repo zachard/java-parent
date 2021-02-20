@@ -14,34 +14,54 @@
  *  limitations under the License.
  */
 
-package com.zachard.java.noddd.domain;
+package com.zachard.java.noddd.domain.transfer.money.model;
 
 /**
- * 航船预定处理服务类
+ * description...
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class VoyageBookService {
+public class Account {
 	
 	/**
-	 * 航船预定
-	 * 
-	 * @param voyage
-	 * @param cargo
-	 * @return
+	 * 账户id
 	 */
-	public int makeBooking(Voyage voyage, Cargo cargo) {
-		if ((voyage.getBookedSize() + cargo.getSize()) > (voyage.getCapacity() * voyage.getBookFactor())) {
-			return -1;  // 判断是否超过运载量
-		}
-		
-		cargo.setVoyageId(voyage.getVoyageId());  // 将运输货物与航运关联
-		voyage.setBookedSize(voyage.getBookedSize() + cargo.getSize());  // 更新航船已经被预定的运载量
-		
-		return 1;
+	private String accountId;
+	
+	/**
+	 * 账户金额
+	 */
+	private double balance;
+
+	/**
+	 * @return the accountId
+	 */
+	public String getAccountId() {
+		return accountId;
+	}
+
+	/**
+	 * @return the balance
+	 */
+	public double getBalance() {
+		return balance;
+	}
+
+	/**
+	 * @param accountId the accountId to set
+	 */
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+
+	/**
+	 * @param balance the balance to set
+	 */
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 
 }

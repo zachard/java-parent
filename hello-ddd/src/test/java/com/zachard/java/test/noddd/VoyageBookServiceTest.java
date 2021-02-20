@@ -22,9 +22,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.zachard.java.noddd.domain.Cargo;
-import com.zachard.java.noddd.domain.Voyage;
-import com.zachard.java.noddd.domain.VoyageBookService;
+import com.zachard.java.noddd.domain.overbook.Cargo;
+import com.zachard.java.noddd.domain.overbook.Voyage;
+import com.zachard.java.noddd.domain.overbook.VoyageBookService;
 
 /**
  * description...
